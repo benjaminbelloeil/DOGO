@@ -1,43 +1,38 @@
 "use client";
 
+import Image from "next/image";
 import { Container } from "./primitives";
 import { Reveal } from "./reveal";
 
 const columns = [
   {
-    title: "Product",
-    links: ["Features", "Pricing", "Integrations", "Changelog"],
+    title: "Producto",
+    links: ["Funciones", "Precios", "Integraciones", "Novedades"],
   },
   {
-    title: "Company",
-    links: ["About", "Careers", "Blog", "Contact"],
+    title: "Empresa",
+    links: ["Nosotros", "Empleos", "Blog", "Contacto"],
   },
   {
-    title: "Resources",
-    links: ["Help Center", "Community", "Guides", "API Docs"],
+    title: "Recursos",
+    links: ["Centro de ayuda", "Comunidad", "Guías", "Documentación de API"],
   },
 ];
 
 function FooterLogo() {
   return (
-    <span className="flex items-center gap-2 text-base font-semibold tracking-tight text-white">
-      <svg
-        viewBox="0 0 24 24"
-        className="size-5"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={1.5}
-        aria-hidden
-      >
-        <path d="M12 2.5 20.5 7v10L12 21.5 3.5 17V7L12 2.5Z" />
-        <path
-          d="M12 7.5 16 10v4l-4 2.5L8 14v-4l4-2.5Z"
-          fill="currentColor"
-          stroke="none"
-        />
-      </svg>
-      Streamia
-    </span>
+    <div className="flex flex-col items-start gap-1.5">
+      <Image
+        src="/brand/dogo-wordmark-white.png"
+        alt="DOGO Streaming"
+        width={1136}
+        height={244}
+        className="h-8 w-auto"
+      />
+      <span className="pl-0.5 text-[11px] font-semibold tracking-[0.42em] text-neutral-500">
+        STREAMING
+      </span>
+    </div>
   );
 }
 
@@ -65,8 +60,8 @@ export function Footer() {
             <div className="max-w-xs">
               <FooterLogo />
               <p className="mt-4 text-sm leading-relaxed text-neutral-500">
-                Go live everywhere at once. Engage your audience in real time
-                and grow a community that keeps watching.
+                Transmití en todos lados a la vez. Conectá con tu audiencia en
+                tiempo real y hacé crecer una comunidad que no deja de mirar.
               </p>
 
               <form
@@ -75,14 +70,14 @@ export function Footer() {
               >
                 <input
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder="Ingresá tu email"
                   className="h-8 flex-1 bg-transparent text-sm text-white placeholder:text-neutral-500 focus:outline-none"
                 />
                 <button
                   type="submit"
                   className="inline-flex h-8 items-center rounded-full bg-white px-4 text-sm font-medium text-neutral-900 transition-transform active:scale-95"
                 >
-                  Subscribe
+                  Suscribirte
                 </button>
               </form>
             </div>
@@ -110,7 +105,8 @@ export function Footer() {
 
           <div className="mt-14 flex flex-col items-center justify-between gap-6 border-t border-white/10 pt-8 sm:flex-row">
             <p className="text-sm text-neutral-500">
-              © {new Date().getFullYear()} Streamia. All rights reserved.
+              © {new Date().getFullYear()} DOGO Streaming. Todos los derechos
+              reservados.
             </p>
 
             <div className="flex items-center gap-3">

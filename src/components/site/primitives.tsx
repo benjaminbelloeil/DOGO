@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 /* Shared low-fidelity wireframe primitives. */
@@ -75,20 +76,14 @@ export function SectionLabel({ children }: { children: React.ReactNode }) {
 
 export function Logo() {
   return (
-    <span className="flex items-center gap-2 text-[15px] font-semibold tracking-tight text-neutral-900">
-      <svg
-        viewBox="0 0 24 24"
-        className="size-5 text-neutral-900"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={1.5}
-        aria-hidden
-      >
-        <path d="M12 2.5 20.5 7v10L12 21.5 3.5 17V7L12 2.5Z" />
-        <path d="M12 7.5 16 10v4l-4 2.5L8 14v-4l4-2.5Z" fill="currentColor" stroke="none" />
-      </svg>
-      Streamia
-    </span>
+    <Image
+      src="/brand/dogo-horizontal.png"
+      alt="DOGO Streaming"
+      width={1060}
+      height={385}
+      priority
+      className="h-8 w-auto"
+    />
   );
 }
 

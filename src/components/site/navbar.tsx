@@ -8,7 +8,7 @@ import {
 } from "motion/react";
 import { Logo, Pill } from "./primitives";
 
-const links = ["About", "Features", "How It Works", "Pricing", "FAQ"];
+const links = ["Nosotros", "Funciones", "Cómo funciona", "Precios", "FAQ"];
 
 export function Navbar() {
   const { scrollY } = useScroll();
@@ -26,7 +26,7 @@ export function Navbar() {
   // Chrome (border / shadow / blur / fill) fades in as it becomes a pill.
   const borderAlpha = useTransform(p, (v) => 0.05 + v * 0.07);
   const shadowAlpha = useTransform(p, (v) => v * 0.12);
-  const fillAlpha = useTransform(p, (v) => 0.7 + v * 0.25);
+  const fillAlpha = useTransform(p, (v) => 0.86 + v * 0.12);
   const blur = useTransform(p, (v) => v * 14);
 
   const border = useMotionTemplate`1px solid rgba(0,0,0,${borderAlpha})`;
@@ -69,9 +69,9 @@ export function Navbar() {
 
         <div className="flex items-center gap-2 justify-self-end">
           <Pill variant="outline" className="hidden sm:inline-flex">
-            Button
+            Botón
           </Pill>
-          <Pill>Button</Pill>
+          <Pill>Botón</Pill>
         </div>
       </motion.nav>
     </motion.div>

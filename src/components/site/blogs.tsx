@@ -10,12 +10,13 @@ export function Blogs() {
         <Reveal>
           <SectionLabel>Blogs</SectionLabel>
           <h2 className="mt-4 max-w-2xl font-serif text-3xl leading-tight tracking-tight text-neutral-900">
-            Discover Tips, Stories, and Trends From the World of Live Streaming
+            Descubrí consejos, historias y tendencias del mundo del streaming en
+            vivo
           </h2>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-neutral-500">
-            Discover expert tips, inspiring stories, and the latest trends
-            designed to help you stream smarter, engage your audience, and grow
-            as a creator.
+            Descubrí consejos de expertos, historias inspiradoras y las últimas
+            tendencias pensadas para ayudarte a transmitir de forma más
+            inteligente, conectar con tu audiencia y crecer como creador.
           </p>
         </Reveal>
 
@@ -28,16 +29,19 @@ export function Blogs() {
                 </div>
                 <div className="p-5">
                   <h3 className="font-serif text-base font-medium leading-snug text-neutral-900">
-                    How to Grow Your Streaming Audience Fast
+                    Cómo hacer crecer tu audiencia de streaming rápido
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-neutral-500">
-                    Tips to attract viewers and turn them into loyal fans.
+                    Consejos para atraer espectadores y convertirlos en fans
+                    fieles.
                   </p>
                   <div className="mt-5 flex items-center justify-between">
                     <Pill variant="outline" className="h-8 px-4 text-xs">
-                      Read more
+                      Leer más
                     </Pill>
-                    <span className="text-xs text-neutral-400">8 min read</span>
+                    <span className="text-xs text-neutral-400">
+                      8 min de lectura
+                    </span>
                   </div>
                 </div>
               </article>

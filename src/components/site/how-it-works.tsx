@@ -8,14 +8,15 @@ export function HowItWorks() {
     <section className="py-16">
       <Container>
         <Reveal>
-          <SectionLabel>How It Works</SectionLabel>
+          <SectionLabel>Cómo funciona</SectionLabel>
           <h2 className="mt-4 max-w-2xl font-serif text-3xl tracking-tight text-neutral-900">
-            How Our Platform Works to Help You Stream Smarter
+            Cómo funciona nuestra plataforma para ayudarte a transmitir de forma
+            más inteligente
           </h2>
           <p className="mt-3 max-w-xl text-sm leading-relaxed text-neutral-500">
-            Getting started is easy. Connect your accounts, go live on multiple
-            platforms, and focus on engaging and growing your audience—while we
-            handle the rest.
+            Empezar es fácil. Conectá tus cuentas, transmití en vivo en varias
+            plataformas y enfocate en interactuar con tu audiencia y hacerla
+            crecer, mientras nosotros nos encargamos del resto.
           </p>
         </Reveal>
 
@@ -29,11 +30,11 @@ export function HowItWorks() {
                 <ImagePlaceholder className="size-4 text-neutral-500" />
               </div>
               <h3 className="mt-12 text-sm font-medium text-neutral-900">
-                0{n}. Connect Platforms
+                0{n}. Conectá las plataformas
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-neutral-500">
-                Easily link all your favorite platforms in one place to manage,
-                seamlessly.
+                Vinculá fácilmente todas tus plataformas favoritas en un solo
+                lugar para gestionarlas sin complicaciones.
               </p>
             </RevealItem>
           ))}

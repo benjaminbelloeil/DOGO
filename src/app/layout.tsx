@@ -19,9 +19,9 @@ const newsreader = Newsreader({
 });
 
 export const metadata: Metadata = {
-  title: "Streamia — Your stream. Your stage. The world is watching",
+  title: "DOGO Streaming — Tu transmisión. Tu escenario. El mundo está mirando",
   description:
-    "Go live on all major platforms at once, engage with viewers in real time, and build authentic connections that grow your community.",
+    "Transmití en vivo en todas las plataformas principales a la vez, conectá con tus espectadores en tiempo real y generá vínculos auténticos que hacen crecer tu comunidad.",
 };
 
 export default function RootLayout({
@@ -31,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="es-AR"
       className={`${geistSans.variable} ${geistMono.variable} ${newsreader.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>

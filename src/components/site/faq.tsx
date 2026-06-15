@@ -6,14 +6,14 @@ import { ChevronDown, Container, Pill, SectionLabel } from "./primitives";
 import { Reveal } from "./reveal";
 
 const faqs = [
-  { q: "How do I start my first live stream?", a: null },
+  { q: "¿Cómo empiezo mi primera transmisión en vivo?", a: null },
   {
-    q: "Can I stream on multiple platforms at once?",
-    a: "Yes, you can go live on Facebook, YouTube, TikTok, and more—all at the same time.",
+    q: "¿Puedo transmitir en varias plataformas a la vez?",
+    a: "Sí, podés transmitir en vivo en Facebook, YouTube, TikTok y más, todo al mismo tiempo.",
   },
-  { q: "How do I start my first live stream?", a: null },
-  { q: "How do I start my first live stream?", a: null },
-  { q: "How do I start my first live stream?", a: null },
+  { q: "¿Cómo empiezo mi primera transmisión en vivo?", a: null },
+  { q: "¿Cómo empiezo mi primera transmisión en vivo?", a: null },
+  { q: "¿Cómo empiezo mi primera transmisión en vivo?", a: null },
 ];
 
 export function Faq() {
@@ -24,16 +24,16 @@ export function Faq() {
       <Container>
         <div className="grid items-start gap-10 md:grid-cols-2">
           <Reveal>
-            <SectionLabel>FAQ</SectionLabel>
+            <SectionLabel>Preguntas frecuentes</SectionLabel>
             <h2 className="mt-4 max-w-xs font-serif text-3xl leading-tight tracking-tight text-neutral-900">
-              Answers to Your Streaming Questions
+              Respuestas a tus preguntas sobre streaming
             </h2>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-neutral-500">
-              Get quick answers to common questions and start streaming without
-              hassle.
+              Obtené respuestas rápidas a las preguntas más comunes y empezá a
+              transmitir sin complicaciones.
             </p>
             <div className="mt-8">
-              <Pill>Button</Pill>
+              <Pill>Botón</Pill>
             </div>
           </Reveal>
 

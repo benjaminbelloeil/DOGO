@@ -31,20 +31,21 @@ export function Hero() {
             variants={item}
             className="max-w-2xl font-serif text-4xl leading-[1.1] tracking-tight text-neutral-900 sm:text-5xl"
           >
-            Your stream. Your stage. The world is watching
+            Tu transmisión. Tu escenario. El mundo está mirando
           </motion.h1>
 
           <motion.p
             variants={item}
             className="mt-6 max-w-md text-sm leading-relaxed text-neutral-500"
           >
-            Go live on all major platforms at once, engage with viewers in real
-            time, and build authentic connections that grow your community.
+            Transmití en vivo en todas las plataformas principales a la vez,
+            conectá con tus espectadores en tiempo real y generá vínculos
+            auténticos que hacen crecer tu comunidad.
           </motion.p>
 
           <motion.div variants={item} className="mt-7 flex items-center gap-3">
-            <Pill>Button</Pill>
-            <Pill variant="outline">Button</Pill>
+            <Pill>Botón</Pill>
+            <Pill variant="outline">Botón</Pill>
           </motion.div>
         </motion.div>
 
