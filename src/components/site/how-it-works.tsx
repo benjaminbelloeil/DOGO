@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import { cn } from "@/lib/utils";
 import { Container, SectionLabel } from "./primitives";
-import { Reveal, RevealGroup, RevealItem } from "./reveal";
+import { Reveal, RevealGroup, RevealHeader, RevealItem } from "./reveal";
 
 // Roles del equipo detrás de cámara, repartidos como stickers por toda la
 // tarjeta. `pos` ubica cada uno; `tilt` da el zig-zag.
@@ -22,6 +22,14 @@ const crew = [
   { label: "Prensa", pos: "right-[34%] bottom-6", tilt: "rotate-4" },
   { label: "Edición", pos: "right-[8%] bottom-8", tilt: "-rotate-3" },
   { label: "Logística", pos: "left-[46%] top-[12%]", tilt: "rotate-2" },
+];
+
+// Los pills del equipo técnico alternan los tres tonos de la marca para que se
+// lean como stickers pegados y no como una lista repetida.
+const pillTints = [
+  "border-neutral-300 bg-white text-neutral-700",
+  "border-grape/25 bg-grape/[0.04] text-grape",
+  "border-gold/50 bg-gold/10 text-ink",
 ];
 
 const team = [
@@ -57,40 +65,52 @@ const team = [
 
 export function HowItWorks() {
   return (
-    <section className="py-12 sm:py-16">
-      <Container className="max-w-7xl">
-        <Reveal>
-          <SectionLabel>Conocé al equipo</SectionLabel>
-          <h2 className="mt-4 max-w-2xl font-display text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl lg:text-5xl">
-            Conocé al equipo de DOGO Streaming
-          </h2>
-          <p className="mt-3 max-w-xl text-sm leading-relaxed text-neutral-500">
-            Las voces, miradas y manos que hacen que cada programa salga al
-            aire desde San Nicolás.
-          </p>
-        </Reveal>
+    <section className="py-20 sm:py-28">
+      <Container>
+        <RevealHeader>
+          <RevealItem>
+            <SectionLabel>Conocé al equipo</SectionLabel>
+          </RevealItem>
+          <RevealItem>
+            <h2 className="mt-4 max-w-2xl font-display text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl lg:text-5xl">
+              Los que ponen el cuerpo al aire
+            </h2>
+          </RevealItem>
+          <RevealItem>
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-neutral-500">
+              Las voces, miradas y manos que hacen que cada programa salga al
+              aire desde San Nicolás.
+            </p>
+          </RevealItem>
+        </RevealHeader>
 
-        <RevealGroup className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {team.map((member) => (
+        <RevealGroup className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+          {team.map((member, i) => (
             <RevealItem
               key={member.name}
-              className="group flex h-full flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-neutral-300 hover:shadow-lg hover:shadow-neutral-200/60"
+              className={cn(
+                "group relative aspect-[3/4] overflow-hidden rounded-[1.75rem] bg-neutral-200",
+                // Zig-zag editorial: las pares bajan un poco en desktop.
+                i % 2 === 1 && "lg:translate-y-8",
+              )}
             >
-              <div className="relative aspect-square shrink-0 overflow-hidden bg-neutral-100">
-                <Image
-                  src={member.image}
-                  alt={`${member.name}, integrante del equipo de DOGO Streaming`}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="object-cover"
-                  style={{ objectPosition: member.position }}
-                />
-              </div>
-              <div className="flex flex-1 flex-col p-5">
-                <h3 className="font-display text-base font-semibold leading-tight text-neutral-900">
+              <Image
+                src={member.image}
+                alt={`${member.name}, integrante del equipo de DOGO Streaming`}
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                className="object-cover grayscale transition-all duration-500 group-hover:scale-[1.04] group-hover:grayscale-0"
+                style={{ objectPosition: member.position }}
+              />
+              <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
+
+              <div className="absolute inset-x-0 bottom-0 p-5">
+                <h3 className="font-display text-lg font-semibold leading-tight text-white">
                   {member.name}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-neutral-500">
+                {/* En pantallas táctiles la bio se ve siempre; con mouse se
+                    revela al pasar por encima. */}
+                <p className="mt-2 max-h-28 overflow-hidden text-xs leading-relaxed text-white/80 transition-all duration-500 pointer-fine:mt-1 pointer-fine:max-h-0 pointer-fine:opacity-0 pointer-fine:group-hover:mt-2 pointer-fine:group-hover:max-h-28 pointer-fine:group-hover:opacity-100">
                   {member.description}
                 </p>
               </div>
@@ -98,14 +118,15 @@ export function HowItWorks() {
           ))}
         </RevealGroup>
 
-        <Reveal className="mt-6">
-          <div className="relative overflow-hidden rounded-2xl border border-neutral-200 bg-white px-6 py-12 text-center sm:px-10 md:flex md:min-h-[30rem] md:flex-col md:justify-center">
+        <Reveal className="mt-6 lg:mt-16">
+          <div className="relative overflow-hidden rounded-[2rem] border border-neutral-200 bg-white px-6 py-12 text-center sm:px-10 md:flex md:min-h-[30rem] md:flex-col md:justify-center">
             {/* Pills repartidos por toda la tarjeta — md+ */}
-            {crew.map((role) => (
+            {crew.map((role, i) => (
               <span
                 key={role.label}
                 className={cn(
-                  "absolute z-0 hidden cursor-default select-none rounded-full border border-neutral-300 bg-white px-5 py-2 font-display text-sm font-medium tracking-tight text-neutral-700 shadow-sm transition-transform duration-300 hover:rotate-0 hover:scale-105 md:inline-block",
+                  "absolute z-0 hidden cursor-default select-none rounded-full border px-5 py-2 font-display text-sm font-medium tracking-tight shadow-sm transition-all duration-300 hover:rotate-0 hover:scale-105 md:inline-block",
+                  pillTints[i % pillTints.length],
                   role.pos,
                   role.tilt,
                 )}
@@ -131,10 +152,13 @@ export function HowItWorks() {
 
             {/* Cluster centrado — solo mobile */}
             <div className="mt-8 flex flex-wrap justify-center gap-2.5 md:hidden">
-              {crew.map((role) => (
+              {crew.map((role, i) => (
                 <span
                   key={role.label}
-                  className="rounded-full border border-neutral-300 bg-white px-4 py-1.5 font-display text-sm font-medium tracking-tight text-neutral-700 shadow-sm"
+                  className={cn(
+                    "rounded-full border px-4 py-1.5 font-display text-sm font-medium tracking-tight shadow-sm",
+                    pillTints[i % pillTints.length],
+                  )}
                 >
                   {role.label}
                 </span>

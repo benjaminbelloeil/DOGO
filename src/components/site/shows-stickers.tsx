@@ -73,7 +73,14 @@ type ShowsStickersProps = {
  */
 export function ShowsStickers({ boundsSelector }: ShowsStickersProps) {
   return (
-    <div className="relative z-20 min-h-[30rem] overflow-visible rounded-2xl bg-white">
+    <div className="relative z-20 min-h-[30rem] overflow-visible">
+      {/* Trama de puntos tipo corcho: ancla los stickers sin encerrarlos en
+          una tarjeta. Se desvanece hacia los bordes. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-2 bg-[radial-gradient(#d4d4d4_1.2px,transparent_1.2px)] [background-size:18px_18px] [mask-image:radial-gradient(ellipse_at_center,black_45%,transparent_90%)]"
+      />
+
       {shows.map((s) => (
         <StickerPeel
           key={s.src}
@@ -89,7 +96,7 @@ export function ShowsStickers({ boundsSelector }: ShowsStickersProps) {
         />
       ))}
 
-      <span className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 text-xs text-neutral-400">
+      <span className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs text-neutral-400">
         Arrastrá y despegá las stickers ✦
       </span>
     </div>

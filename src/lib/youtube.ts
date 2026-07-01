@@ -31,7 +31,7 @@ const FALLBACK_STREAMS: Stream[] = [
     duration: "1:47:14",
     durationLabel: "1 h 47 min",
     url: "https://www.youtube.com/watch?v=2umURMnndKE",
-    thumbnail: "https://i.ytimg.com/vi/2umURMnndKE/hqdefault.jpg",
+    thumbnail: "https://i.ytimg.com/vi/2umURMnndKE/maxresdefault.jpg",
   },
   {
     title: "Ya lo Sabía! — Primer programa",
@@ -40,7 +40,7 @@ const FALLBACK_STREAMS: Stream[] = [
     duration: "2:01:14",
     durationLabel: "2 h 1 min",
     url: "https://www.youtube.com/watch?v=6cPC4-2W3zo",
-    thumbnail: "https://i.ytimg.com/vi/6cPC4-2W3zo/hqdefault.jpg",
+    thumbnail: "https://i.ytimg.com/vi/6cPC4-2W3zo/maxresdefault.jpg",
   },
   {
     title: "Ya lo Sabía! — Segundo stream",
@@ -49,7 +49,7 @@ const FALLBACK_STREAMS: Stream[] = [
     duration: "2:01:26",
     durationLabel: "2 h 1 min",
     url: "https://www.youtube.com/watch?v=AQTyHrPs8vQ",
-    thumbnail: "https://i.ytimg.com/vi/AQTyHrPs8vQ/hqdefault.jpg",
+    thumbnail: "https://i.ytimg.com/vi/AQTyHrPs8vQ/maxresdefault.jpg",
   },
 ];
 

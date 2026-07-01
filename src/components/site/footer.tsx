@@ -57,7 +57,7 @@ export function Footer() {
 
   return (
     <footer className="relative overflow-hidden bg-neutral-950 text-neutral-400">
-      <Container className="py-16">
+      <Container className="max-w-6xl py-16">
         <Reveal>
           <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
             <div className="max-w-xs">
@@ -130,9 +130,9 @@ export function Footer() {
         </Reveal>
       </Container>
 
-      {/* Oversized brand wordmark in the golden yellow of the "Ya lo Sabía"
-          lettering. A full-bleed invisible box clips it: it overflows past the
-          right edge and is sliced flush along the bottom (no gap underneath). */}
+      {/* Oversized brand wordmark in the grape violet of the buttons. A
+          full-bleed invisible box clips it: it overflows past the right edge
+          and is sliced flush along the bottom (no gap underneath). */}
       <div
         aria-hidden
         className="pointer-events-none -mt-[3vw] select-none overflow-hidden"
@@ -143,7 +143,7 @@ export function Footer() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 1.2, ease: "easeOut" }}
-            className="-mb-[0.3em] block w-max whitespace-nowrap bg-gradient-to-b from-[#FCB034] via-[#FCB034] to-[#FCB034]/25 bg-clip-text text-[24vw] font-sans font-extrabold leading-none tracking-tighter text-transparent"
+            className="-mb-[0.3em] block w-max whitespace-nowrap bg-gradient-to-b from-grape via-grape to-grape/25 bg-clip-text text-[24vw] font-sans font-extrabold leading-none tracking-tighter text-transparent"
           >
             Streaming
           </motion.span>

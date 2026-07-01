@@ -73,7 +73,7 @@ export function Hero() {
         className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/45 to-black/75"
       />
 
-      <Container className="relative z-10 flex flex-col items-center pb-16 pt-28 text-center">
+      <Container className="relative z-10 flex max-w-6xl flex-col items-center pb-16 pt-28 text-center">
         <motion.div
           className="flex flex-col items-center"
           variants={container}

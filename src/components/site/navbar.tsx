@@ -84,10 +84,10 @@ export function Navbar() {
   );
 
   // At the top the bar is a full-bleed header spanning the whole viewport.
-  // As it scrolls it collapses to the hero card's content width (69rem — the
-  // max-w-6xl/72rem Container minus its 24px px-6 gutters) and floats as a pill,
-  // its centred edges lining up with the hero card below.
-  const HERO_PX = 69 * 16; // 69rem in px
+  // As it scrolls it collapses to the page content width (≈93rem — the
+  // max-w-[1600px] Container minus its lg:px-14 gutters) and floats as a pill,
+  // its centred edges lining up with the content below.
+  const HERO_PX = 93 * 16; // ≈ 1488px, the content container's inner width
   const maxWidth = useTransform(p, (v) => {
     // Until the viewport is measured, leave maxWidth unset → full-bleed, which
     // is exactly the top (p=0) state, so there's no shrink-then-grow on load.

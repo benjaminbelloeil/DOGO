@@ -1,6 +1,7 @@
+import Image from "next/image";
 import { ArrowUpRight, Mic, Video, Wifi, Snowflake } from "lucide-react";
 import { Container, SectionLabel } from "./primitives";
-import { Reveal } from "./reveal";
+import { Reveal, RevealHeader, RevealItem } from "./reveal";
 import { StudioCarousel } from "./studio-carousel";
 
 // Reemplazá el número por el WhatsApp real de DOGO (formato internacional, sin +).
@@ -32,68 +33,82 @@ const features = [
 
 export function Studio() {
   return (
-    <section id="estudio" className="py-12 sm:py-16">
+    <section id="estudio" className="py-20 sm:py-28">
       <Container>
-        <Reveal>
-          <SectionLabel>Alquilá el estudio</SectionLabel>
-          <h2 className="mt-4 max-w-2xl font-display text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl lg:text-5xl">
-            El estudio de DOGO, disponible para tu proyecto
-          </h2>
-          <p className="mt-3 max-w-xl text-sm leading-relaxed text-neutral-500">
-            Grabá tu podcast, transmití en vivo o producí tu contenido en un
-            estudio equipado en el corazón de San Nicolás de los Arroyos.
-          </p>
-        </Reveal>
+        <RevealHeader>
+          <RevealItem>
+            <SectionLabel>Alquilá el estudio</SectionLabel>
+          </RevealItem>
+          <RevealItem>
+            <h2 className="mt-4 max-w-2xl font-display text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl lg:text-5xl">
+              El estudio de DOGO, disponible para tu proyecto
+            </h2>
+          </RevealItem>
+          <RevealItem>
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-neutral-500">
+              Grabá tu podcast, transmití en vivo o producí tu contenido en un
+              estudio equipado en el corazón de San Nicolás de los Arroyos.
+            </p>
+          </RevealItem>
+        </RevealHeader>
 
-        <Reveal delay={0.1} className="mt-10">
-          <div className="grid items-stretch gap-10 md:grid-cols-12 md:gap-12">
-            {/* Izquierda: beneficios como lista editorial + CTA */}
-            <div className="flex flex-col md:col-span-5">
-              <ul className="divide-y divide-neutral-200 border-t border-neutral-200">
-                {features.map(({ icon: Icon, title, desc }, i) => (
-                  <li
-                    key={title}
-                    className="group flex items-center gap-5 py-5"
-                  >
-                    <span className="w-6 shrink-0 font-display text-xs font-bold tabular-nums text-neutral-300 transition-colors group-hover:text-neutral-900">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <Icon
-                      className="size-5 shrink-0 text-neutral-900"
-                      strokeWidth={1.5}
-                    />
-                    <div className="min-w-0">
-                      <h3 className="text-sm font-semibold leading-tight text-neutral-900">
-                        {title}
-                      </h3>
-                      <p className="mt-1 text-xs leading-snug text-neutral-500">
-                        {desc}
-                      </p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-
-              <a
-                href={VISIT_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group mt-auto flex h-14 items-center justify-between gap-3 rounded-full bg-grape px-7 text-base font-semibold text-white shadow-sm transition-all duration-300 hover:bg-grape-deep hover:shadow-lg hover:shadow-grape/30 active:scale-[0.98]"
-              >
-                <span>Agendar una visita</span>
-                <ArrowUpRight
-                  className="size-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                  strokeWidth={2}
-                />
-              </a>
+        {/* Panel de reserva unificado: las fotos mandan a la izquierda y la
+            info + acción concreta (WhatsApp) acompañan a la derecha. */}
+        <Reveal className="mt-10">
+          <div className="grid overflow-hidden rounded-[2rem] border border-neutral-200 bg-white md:grid-cols-12">
+            {/* Fotos del estudio, a sangre contra el borde del panel */}
+            <div className="relative md:col-span-7">
+              <StudioCarousel
+                className="h-full"
+                frameClassName="aspect-[16/10] rounded-none border-0 md:aspect-auto md:h-full"
+              />
             </div>
 
-            {/* Derecha: image plate dominante */}
-            <div className="flex flex-col md:col-span-7">
-              <StudioCarousel
-                className="flex flex-1 flex-col"
-                frameClassName="md:min-h-0 md:flex-1 md:aspect-auto border-transparent shadow-xl shadow-neutral-900/10 ring-1 ring-black/5"
-              />
+            {/* Info + CTA */}
+            <div className="flex flex-col p-7 sm:p-9 md:col-span-5">
+              <div className="grid gap-3 sm:grid-cols-2">
+                {features.map(({ icon: Icon, title, desc }) => (
+                  <div
+                    key={title}
+                    className="rounded-2xl border border-neutral-200 p-4 transition-colors duration-300 hover:border-grape/40"
+                  >
+                    <Icon className="size-5 text-grape" strokeWidth={1.75} />
+                    <h3 className="mt-3 text-sm font-semibold leading-tight text-neutral-900">
+                      {title}
+                    </h3>
+                    <p className="mt-1 text-xs leading-snug text-neutral-500">
+                      {desc}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-6 border-t border-neutral-100 pt-6 md:mt-auto">
+                <p className="text-sm leading-relaxed text-neutral-500">
+                  Contanos qué querés grabar y coordinamos día y horario.
+                </p>
+                <a
+                  href={VISIT_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group mt-4 flex h-14 items-center justify-between gap-3 rounded-full bg-grape px-6 text-base font-semibold text-white shadow-sm transition-all duration-300 hover:bg-grape-deep hover:shadow-lg hover:shadow-grape/30 active:scale-[0.98]"
+                >
+                  <span className="flex items-center gap-2.5">
+                    <Image
+                      src="/icons/whatsapp.png"
+                      alt=""
+                      width={40}
+                      height={40}
+                      className="size-5"
+                    />
+                    Agendar por WhatsApp
+                  </span>
+                  <ArrowUpRight
+                    className="size-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                    strokeWidth={2}
+                  />
+                </a>
+              </div>
             </div>
           </div>
         </Reveal>
