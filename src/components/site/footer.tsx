@@ -1,21 +1,22 @@
 "use client";
 
 import Image from "next/image";
+import { motion, useReducedMotion } from "motion/react";
 import { Container } from "./primitives";
 import { Reveal } from "./reveal";
 
 const columns = [
   {
-    title: "Producto",
-    links: ["Funciones", "Precios", "Integraciones", "Novedades"],
+    title: "DOGO",
+    links: ["En vivo", "Programas", "La comunidad", "FAQ"],
   },
   {
-    title: "Empresa",
-    links: ["Nosotros", "Empleos", "Blog", "Contacto"],
+    title: "Programas",
+    links: ["Ya lo Sabía", "Hoja de Ruta"],
   },
   {
-    title: "Recursos",
-    links: ["Centro de ayuda", "Comunidad", "Guías", "Documentación de API"],
+    title: "Seguinos",
+    links: ["Instagram", "YouTube", "Facebook"],
   },
 ];
 
@@ -52,16 +53,18 @@ const socials = [
 ];
 
 export function Footer() {
+  const reduce = useReducedMotion();
+
   return (
-    <footer className="bg-neutral-950 text-neutral-400">
+    <footer className="relative overflow-hidden bg-neutral-950 text-neutral-400">
       <Container className="py-16">
         <Reveal>
           <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
             <div className="max-w-xs">
               <FooterLogo />
               <p className="mt-4 text-sm leading-relaxed text-neutral-500">
-                Transmití en todos lados a la vez. Conectá con tu audiencia en
-                tiempo real y hacé crecer una comunidad que no deja de mirar.
+                Entrevistas, humor y actualidad. La señal de San Nicolás de los
+                Arroyos, en vivo de lunes a viernes por FM 99.9.
               </p>
 
               <form
@@ -70,14 +73,14 @@ export function Footer() {
               >
                 <input
                   type="email"
-                  placeholder="Ingresá tu email"
+                  placeholder="Dejanos tu email"
                   className="h-8 flex-1 bg-transparent text-sm text-white placeholder:text-neutral-500 focus:outline-none"
                 />
                 <button
                   type="submit"
                   className="inline-flex h-8 items-center rounded-full bg-white px-4 text-sm font-medium text-neutral-900 transition-transform active:scale-95"
                 >
-                  Suscribirte
+                  Enterate
                 </button>
               </form>
             </div>
@@ -105,8 +108,8 @@ export function Footer() {
 
           <div className="mt-14 flex flex-col items-center justify-between gap-6 border-t border-white/10 pt-8 sm:flex-row">
             <p className="text-sm text-neutral-500">
-              © {new Date().getFullYear()} DOGO Streaming. Todos los derechos
-              reservados.
+              © {new Date().getFullYear()} DOGO Streaming · San Nicolás de los
+              Arroyos · FM 99.9. Todos los derechos reservados.
             </p>
 
             <div className="flex items-center gap-3">
@@ -126,6 +129,26 @@ export function Footer() {
           </div>
         </Reveal>
       </Container>
+
+      {/* Oversized brand wordmark in the golden yellow of the "Ya lo Sabía"
+          lettering. A full-bleed invisible box clips it: it overflows past the
+          right edge and is sliced flush along the bottom (no gap underneath). */}
+      <div
+        aria-hidden
+        className="pointer-events-none -mt-[3vw] select-none overflow-hidden"
+      >
+        <div className="mx-auto max-w-6xl px-6">
+          <motion.span
+            initial={reduce ? false : { opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="-mb-[0.3em] block w-max whitespace-nowrap bg-gradient-to-b from-[#FCB034] via-[#FCB034] to-[#FCB034]/25 bg-clip-text text-[24vw] font-sans font-extrabold leading-none tracking-tighter text-transparent"
+          >
+            Streaming
+          </motion.span>
+        </div>
+      </div>
     </footer>
   );
 }

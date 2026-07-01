@@ -1,7 +1,8 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { Container, ImagePlaceholder, Pill } from "./primitives";
+import { Container, Pill } from "./primitives";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -17,45 +18,103 @@ const item = {
 
 export function Hero() {
   const reduce = useReducedMotion();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    // React doesn't reliably set the `muted` DOM property from the attribute,
+    // so browsers treat the video as having sound and block autoplay. Force it
+    // muted, then start playback (Safari/iOS/low-power need the explicit play).
+    video.muted = true;
+
+    const tryPlay = () => video.play().catch(() => {});
+
+    // Some browsers (Brave with Shields, Arc, strict autoplay policies) block
+    // muted autoplay outright. Try immediately, and also fall back to the first
+    // user gesture, which always grants playback permission.
+    const resumeOnGesture = () => {
+      tryPlay();
+      window.removeEventListener("pointerdown", resumeOnGesture);
+      window.removeEventListener("keydown", resumeOnGesture);
+      window.removeEventListener("scroll", resumeOnGesture);
+    };
+
+    tryPlay();
+    window.addEventListener("pointerdown", resumeOnGesture, { once: true });
+    window.addEventListener("keydown", resumeOnGesture, { once: true });
+    window.addEventListener("scroll", resumeOnGesture, { once: true });
+
+    return () => {
+      window.removeEventListener("pointerdown", resumeOnGesture);
+      window.removeEventListener("keydown", resumeOnGesture);
+      window.removeEventListener("scroll", resumeOnGesture);
+    };
+  }, []);
 
   return (
-    <section className="pt-28 pb-10">
-      <Container className="flex flex-col items-center text-center">
+    <section className="relative flex min-h-svh items-center justify-center overflow-hidden">
+      {/* Full-bleed video background */}
+      <video
+        ref={videoRef}
+        className="absolute inset-0 size-full object-cover"
+        src="/hero/hero.mp4"
+        poster="/hero/hero-poster.jpg"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+      />
+
+      {/* Dark overlay so the white text stays readable */}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/45 to-black/75"
+      />
+
+      <Container className="relative z-10 flex flex-col items-center pb-16 pt-28 text-center">
         <motion.div
           className="flex flex-col items-center"
           variants={container}
           initial={reduce ? false : "hidden"}
           animate="show"
         >
-          <motion.h1
-            variants={item}
-            className="max-w-2xl font-serif text-4xl leading-[1.1] tracking-tight text-neutral-900 sm:text-5xl"
-          >
-            Tu transmisión. Tu escenario. El mundo está mirando
-          </motion.h1>
+          <h1 className="max-w-4xl font-display text-6xl font-bold leading-[0.95] tracking-tight text-white drop-shadow-[0_2px_20px_rgba(0,0,0,0.35)] sm:text-7xl lg:text-8xl">
+            {"El streaming de".split(" ").map((word, i) => (
+              <motion.span
+                key={`${word}-${i}`}
+                variants={item}
+                className="mr-[0.25em] inline-block"
+              >
+                {word}
+              </motion.span>
+            ))}
+            <motion.span variants={item} className="mt-1 block text-gold">
+              San Nicolás
+            </motion.span>
+          </h1>
 
           <motion.p
             variants={item}
-            className="mt-6 max-w-md text-sm leading-relaxed text-neutral-500"
+            className="mt-7 max-w-lg text-base leading-relaxed text-white/80"
           >
-            Transmití en vivo en todas las plataformas principales a la vez,
-            conectá con tus espectadores en tiempo real y generá vínculos
-            auténticos que hacen crecer tu comunidad.
+            DOGO es la señal de San Nicolás de los Arroyos. De lunes a viernes
+            te acompañamos en vivo por FM 99.9 con la mejor charla, la
+            información que importa y mucha buena onda.
           </motion.p>
 
           <motion.div variants={item} className="mt-7 flex items-center gap-3">
-            <Pill>Botón</Pill>
-            <Pill variant="outline">Botón</Pill>
+            <Pill className="bg-white text-neutral-900 hover:bg-white/90">
+              Escuchar en vivo
+            </Pill>
+            <Pill
+              variant="outline"
+              className="border-white/40 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
+            >
+              Nuestros programas
+            </Pill>
           </motion.div>
-        </motion.div>
-
-        <motion.div
-          initial={reduce ? false : { opacity: 0, y: 40, scale: 0.97 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.9, delay: 0.35, ease: EASE }}
-          className="mt-14 flex aspect-[16/10] w-full items-center justify-center rounded-3xl bg-neutral-200"
-        >
-          <ImagePlaceholder className="size-24 text-neutral-400" />
         </motion.div>
       </Container>
     </section>

@@ -53,7 +53,7 @@ export function Pill({
       className={cn(
         "inline-flex h-9 items-center justify-center rounded-full px-5 text-sm font-medium transition-all active:scale-95",
         variant === "solid"
-          ? "bg-neutral-900 text-white hover:bg-neutral-800"
+          ? "bg-grape text-white hover:bg-grape-deep"
           : "border border-neutral-300 bg-white text-neutral-900 hover:bg-neutral-50",
         className,
       )}
@@ -67,8 +67,8 @@ export function Pill({
 /** Tiny square-bullet eyebrow label (e.g. "▪ How It Works"). */
 export function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <span className="flex items-center gap-2 text-xs font-medium text-neutral-500">
-      <span className="size-1.5 rounded-[1px] bg-neutral-800" />
+    <span className="flex items-center gap-2 font-display text-[11px] font-semibold uppercase tracking-[0.18em] text-grape">
+      <span className="size-1.5 rounded-[1px] bg-gold" />
       {children}
     </span>
   );
@@ -77,7 +77,7 @@ export function SectionLabel({ children }: { children: React.ReactNode }) {
 export function Logo() {
   return (
     <Image
-      src="/brand/dogo-horizontal.png"
+      src="/brand/dogo-logo-color.png"
       alt="DOGO Streaming"
       width={1060}
       height={385}

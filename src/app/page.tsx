@@ -1,10 +1,11 @@
 import { Navbar } from "@/components/site/navbar";
 import { Hero } from "@/components/site/hero";
-import { LogoCloud } from "@/components/site/logo-cloud";
+import { LiveSocial } from "@/components/site/live-social";
 import { HowItWorks } from "@/components/site/how-it-works";
 import { Features } from "@/components/site/features";
 import { Testimonials } from "@/components/site/testimonials";
 import { Blogs } from "@/components/site/blogs";
+import { Studio } from "@/components/site/studio";
 import { Faq } from "@/components/site/faq";
 import { Cta } from "@/components/site/cta";
 import { Footer } from "@/components/site/footer";
@@ -15,13 +16,14 @@ export default function Home() {
       <Navbar />
       <main className="bg-neutral-100 pb-12">
         <Hero />
-        <LogoCloud />
+        <LiveSocial />
         <HowItWorks />
         <Features />
         <Testimonials />
         <Blogs />
-        <Faq />
+        <Studio />
         <Cta />
+        <Faq />
       </main>
       <Footer />
     </div>

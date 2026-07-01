@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Newsreader } from "next/font/google";
+import { Geist, Geist_Mono, Fredoka } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -12,16 +12,18 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const newsreader = Newsreader({
-  variable: "--font-serif",
+// Display face for headings — a bold, chunky, rounded sans that echoes the
+// playful "Ya lo Sabía" lettering of the DOGO programs.
+const fredoka = Fredoka({
+  variable: "--font-display",
   subsets: ["latin"],
-  style: ["normal", "italic"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "DOGO Streaming — Tu transmisión. Tu escenario. El mundo está mirando",
+  title: "DOGO Streaming — Entrevistas, humor y actualidad por FM 99.9",
   description:
-    "Transmití en vivo en todas las plataformas principales a la vez, conectá con tus espectadores en tiempo real y generá vínculos auténticos que hacen crecer tu comunidad.",
+    "La señal de San Nicolás de los Arroyos. Entrevistas, humor y actualidad en vivo de lunes a viernes por FM 99.9.",
 };
 
 export default function RootLayout({
@@ -32,7 +34,7 @@ export default function RootLayout({
   return (
     <html
       lang="es-AR"
-      className={`${geistSans.variable} ${geistMono.variable} ${newsreader.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${fredoka.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
