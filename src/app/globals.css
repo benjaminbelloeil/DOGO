@@ -158,3 +158,34 @@
     transform: scaleY(1);
   }
 }
+
+/* Pantalla de carga: el agua de DOGO. Cada ola es un SVG del doble de ancho
+   con patrón periódico al 50%, así el drift de -50% loopea sin costura. El
+   sube-y-baja va en el wrapper para no pisar el translateX del drift. */
+@keyframes wave-drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes wave-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-18px);
+  }
+}
+/* El logo flota sobre el agua, como una boya. */
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
