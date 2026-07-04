@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import { cn } from "@/lib/utils";
-import { Container, SectionLabel } from "./primitives";
+import { Container, SectionIntro, SectionLabel, SectionTitle } from "./primitives";
 import { Reveal, RevealGroup, RevealHeader, RevealItem } from "./reveal";
 
 // Roles del equipo detrás de cámara, repartidos como stickers por toda la
@@ -37,7 +37,16 @@ const team = [
     name: "Luca",
     description:
       "No vino a mirar, vino a decirlo. Pone el cuerpo y la palabra al frente de cada programa.",
-    image: "/team/luca.png",
+    // Afiches re-exportados por el cliente con márgenes correctos (el sufijo
+    // -v5 invalida la caché del optimizador de imágenes).
+    image: "/team/luca-v5.png",
+    position: "center top",
+  },
+  {
+    name: "Diego «El Indio»",
+    description:
+      "Sin vueltas, sin libretos. Directo, filoso y siempre de frente con la audiencia.",
+    image: "/team/diego-v5.png",
     position: "center top",
   },
   {
@@ -45,20 +54,6 @@ const team = [
     description:
       "Cuando habla, pasan cosas. Trae la mirada que incomoda y enciende el debate.",
     image: "/team/dolores.png",
-    position: "center top",
-  },
-  {
-    name: "Karina",
-    description:
-      "Pregunta lo que otros callan. Va al fondo de cada tema, sin rodeos ni filtros.",
-    image: "/team/karina.png",
-    position: "center top",
-  },
-  {
-    name: "Diego «El Indio»",
-    description:
-      "Sin vueltas, sin libretos. Directo, filoso y siempre de frente con la audiencia.",
-    image: "/team/diego.png",
     position: "center top",
   },
 ];
@@ -72,19 +67,19 @@ export function HowItWorks() {
             <SectionLabel>Conocé al equipo</SectionLabel>
           </RevealItem>
           <RevealItem>
-            <h2 className="mt-4 max-w-2xl font-display text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl lg:text-5xl">
+            <SectionTitle className="mt-4 max-w-2xl">
               Los que ponen el cuerpo al aire
-            </h2>
+            </SectionTitle>
           </RevealItem>
           <RevealItem>
-            <p className="mt-3 max-w-xl text-sm leading-relaxed text-neutral-500">
+            <SectionIntro className="mt-4 max-w-xl">
               Las voces, miradas y manos que hacen que cada programa salga al
               aire desde San Nicolás.
-            </p>
+            </SectionIntro>
           </RevealItem>
         </RevealHeader>
 
-        <RevealGroup className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+        <RevealGroup className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
           {team.map((member, i) => (
             <RevealItem
               key={member.name}
@@ -144,10 +139,10 @@ export function HowItWorks() {
                 Gracias a todo el <span className="text-grape">equipo</span> que
                 hace posible cada transmisión
               </h3>
-              <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-neutral-500">
+              <SectionIntro className="mx-auto mt-4 max-w-md">
                 Las manos que no se ven en pantalla pero sostienen cada programa
                 de DOGO desde San Nicolás.
-              </p>
+              </SectionIntro>
             </div>
 
             {/* Cluster centrado — solo mobile */}

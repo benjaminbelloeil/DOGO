@@ -1,9 +1,9 @@
-import Image from "next/image";
 import { ArrowUpRight, Clock, Radio } from "lucide-react";
 
-import { Container } from "./primitives";
+import { Container, SectionIntro, SectionTitle } from "./primitives";
 import { LiveBadge } from "./live-badge";
 import { Reveal } from "./reveal";
+import { getLiveVideoId, getRecentStreams } from "@/lib/youtube";
 
 // TODO: reemplazar por las URLs reales de DOGO.
 const LIVE_URL = "https://www.youtube.com/@dogostreaming/live";
@@ -26,7 +26,20 @@ const socials = [
   },
 ];
 
-export function LiveSocial() {
+export async function LiveSocial() {
+  // Si el canal está al aire, el frame muestra la transmisión real (muteada);
+  // si no, la miniatura del último stream subido. Vivo revalidado cada 5
+  // minutos; el último stream, cada hora.
+  const [liveVideoId, [latest]] = await Promise.all([
+    getLiveVideoId(),
+    getRecentStreams(1),
+  ]);
+
+  // La captura fija en HD (1280×720) le gana a la miniatura del feed (480px).
+  const latestImage =
+    latest?.stills.find((s) => !s.sprite)?.src ?? latest?.thumbnail;
+  const frameUrl = liveVideoId ? LIVE_URL : (latest?.url ?? LIVE_URL);
+
   return (
     <section id="en-vivo" className="py-20 sm:py-28">
       <Container>
@@ -34,41 +47,64 @@ export function LiveSocial() {
           {/* Ancla visual: el vivo como una pantalla enmarcada */}
           <Reveal from="left" className="order-2 lg:order-1">
             <a
-              href={LIVE_URL}
+              href={frameUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="group relative block aspect-video overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-900 shadow-xl shadow-neutral-900/10"
             >
-              <Image
-                src="/studio/studio-6.png"
-                alt="El panel de DOGO transmitiendo en vivo desde el estudio"
-                fill
-                sizes="(max-width: 1024px) 100vw, 60vw"
-                className="object-cover transition-all duration-500 group-hover:scale-[1.03]"
+              {liveVideoId ? (
+                // Vista previa real del vivo: muteada y sin controles; el
+                // click sigue llevando al canal (el iframe no captura clicks).
+                <iframe
+                  src={`https://www.youtube.com/embed/${liveVideoId}?autoplay=1&mute=1&playsinline=1&controls=0&rel=0`}
+                  title="Transmisión en vivo de DOGO Streaming"
+                  allow="autoplay; encrypted-media; picture-in-picture"
+                  className="pointer-events-none absolute inset-0 size-full"
+                />
+              ) : latestImage ? (
+                // Sin vivo: la imagen del último stream subido al canal.
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={latestImage}
+                  alt={`Último stream de DOGO: ${latest.title}`}
+                  className="absolute inset-0 size-full object-cover transition-all duration-500 group-hover:scale-[1.03]"
+                />
+              ) : (
+                <span className="absolute inset-0 bg-grape/[0.06]" />
+              )}
+              <div
+                className={
+                  liveVideoId
+                    ? "absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/60 to-transparent"
+                    : "absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-black/30"
+                }
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-black/30" />
 
               {/* Badge de estado — En vivo / No en vivo según hora de Argentina */}
               <LiveBadge className="absolute left-4 top-4" />
 
-              {/* Botón de play perfectamente centrado en el frame */}
-              <span className="absolute inset-0 grid place-items-center">
-                <span className="flex size-16 items-center justify-center rounded-full bg-white/15 text-white ring-1 ring-white/40 backdrop-blur transition-all duration-300 group-hover:scale-110 group-hover:bg-white group-hover:text-neutral-900">
-                  <svg viewBox="0 0 24 24" fill="currentColor" className="size-6" aria-hidden>
-                    <path d="M6 5.14v13.72a1 1 0 0 0 1.54.84l10.3-6.86a1 1 0 0 0 0-1.68L7.54 4.3A1 1 0 0 0 6 5.14Z" />
-                  </svg>
+              {/* Botón de play centrado; con el vivo andando no hace falta */}
+              {!liveVideoId && (
+                <span className="absolute inset-0 grid place-items-center">
+                  <span className="flex size-16 items-center justify-center rounded-full bg-white/15 text-white ring-1 ring-white/40 backdrop-blur transition-all duration-300 group-hover:scale-110 group-hover:bg-white group-hover:text-neutral-900">
+                    <svg viewBox="0 0 24 24" fill="currentColor" className="size-6" aria-hidden>
+                      <path d="M6 5.14v13.72a1 1 0 0 0 1.54.84l10.3-6.86a1 1 0 0 0 0-1.68L7.54 4.3A1 1 0 0 0 6 5.14Z" />
+                    </svg>
+                  </span>
                 </span>
-              </span>
+              )}
 
-              <span className="absolute bottom-4 left-4 font-display text-sm font-semibold text-white drop-shadow">
-                Lun a Vie · 10–12 h (ARG)
+              <span className="absolute bottom-4 left-4 max-w-[calc(100%-2rem)] truncate font-display text-sm font-semibold text-white drop-shadow">
+                {liveVideoId || !latest
+                  ? "Lun a Vie · 10–12 h (ARG)"
+                  : `Último programa · ${latest.title}`}
               </span>
             </a>
           </Reveal>
 
           {/* Texto compacto + tira de redes */}
           <Reveal from="right" delay={0.1} className="order-1 lg:order-2">
-            <h2 className="font-display text-3xl font-bold leading-[1.05] tracking-tight text-neutral-900 sm:text-4xl lg:text-5xl">
+            <SectionTitle>
               Mirá la transmisión{" "}
               <span className="whitespace-nowrap">
                 <span className="text-grape">en vivo</span>
@@ -86,11 +122,11 @@ export function LiveSocial() {
                   ))}
                 </span>
               </span>
-            </h2>
-            <p className="mt-4 max-w-md text-sm leading-relaxed text-neutral-500">
+            </SectionTitle>
+            <SectionIntro className="mt-4 max-w-md">
               Entrá al canal y sumate a la transmisión en directo desde San
               Nicolás de los Arroyos.
-            </p>
+            </SectionIntro>
 
             {/* Datos de sintonía, escaneables de un vistazo */}
             <div className="mt-6 flex flex-wrap items-center gap-2.5">
@@ -108,7 +144,7 @@ export function LiveSocial() {
               href={LIVE_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="group mt-7 inline-flex h-12 items-center gap-2 rounded-full bg-grape px-7 text-sm font-bold text-white shadow-sm transition-all duration-300 hover:bg-grape-deep active:scale-[0.98]"
+              className="group mt-7 inline-flex h-12 items-center gap-2 rounded-full bg-grape px-7 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:bg-grape-deep active:scale-[0.98]"
             >
               Ver el vivo ahora
               <ArrowUpRight

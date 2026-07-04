@@ -56,7 +56,7 @@ export function Pill({
   return (
     <button
       className={cn(
-        "inline-flex h-9 items-center justify-center rounded-full px-5 text-sm font-medium transition-all active:scale-95",
+        "inline-flex h-9 items-center justify-center rounded-full px-5 text-sm font-semibold transition-all active:scale-95",
         variant === "solid"
           ? "bg-grape text-white hover:bg-grape-deep"
           : "border border-neutral-300 bg-white text-neutral-900 hover:bg-neutral-50",
@@ -66,6 +66,46 @@ export function Pill({
     >
       {children}
     </button>
+  );
+}
+
+/**
+ * Section h2 — the one heading style used across the page: chunky Fredoka,
+ * tight leading. Pass max-width/margins via className.
+ */
+export function SectionTitle({
+  className,
+  children,
+}: {
+  className?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <h2
+      className={cn(
+        "font-display text-3xl font-bold leading-[1.05] tracking-tight text-neutral-900 sm:text-4xl lg:text-5xl",
+        className,
+      )}
+    >
+      {children}
+    </h2>
+  );
+}
+
+/** Section intro paragraph under the title. */
+export function SectionIntro({
+  className,
+  children,
+}: {
+  className?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <p
+      className={cn("text-base leading-relaxed text-neutral-500", className)}
+    >
+      {children}
+    </p>
   );
 }
 

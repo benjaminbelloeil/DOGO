@@ -13,11 +13,21 @@ import {
   type MotionStyle,
   type MotionValue,
 } from "motion/react";
-import { CalendarDays, Radio } from "lucide-react";
+import { Megaphone, Radio } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Pill } from "./primitives";
 
-const links = ["En vivo", "Programas", "La comunidad", "FAQ"];
+const links = [
+  { label: "En vivo", href: "#en-vivo" },
+  { label: "Programas", href: "#programas" },
+  { label: "Novedades", href: "#novedades" },
+  { label: "Estudio", href: "#estudio" },
+  { label: "FAQ", href: "#faq" },
+];
+
+// WhatsApp para pauta publicitaria (anunciar en los programas de DOGO).
+const ADS_URL = `https://wa.me/5493364403310?text=${encodeURIComponent(
+  "¡Hola DOGO! 👋 Quiero info para anunciar mi marca en sus programas.",
+)}`;
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -163,12 +173,12 @@ export function Navbar() {
             className="col-start-2 hidden items-center gap-7 justify-self-center text-sm lg:flex"
           >
             {links.map((link) => (
-              <li key={link}>
+              <li key={link.label}>
                 <a
-                  href="#"
+                  href={link.href}
                   className="transition-opacity hover:opacity-70"
                 >
-                  {link}
+                  {link.label}
                 </a>
               </li>
             ))}
@@ -178,16 +188,16 @@ export function Navbar() {
             <MorphButton
               collapse={ctaCollapse}
               scrollP={p}
-              href="#estudio"
-              label="Alquilá el estudio"
-              icon={CalendarDays}
+              href={ADS_URL}
+              label="Anunciá acá"
+              icon={Megaphone}
               variant="outline"
             />
             <MorphButton
               collapse={ctaCollapse}
               scrollP={p}
               href="#en-vivo"
-              label="Escuchar en vivo"
+              label="Escuchar vivo"
               icon={Radio}
               variant="solid"
             />
@@ -218,26 +228,38 @@ export function Navbar() {
                 <ul className="flex flex-col">
                   {links.map((link, i) => (
                     <motion.li
-                      key={link}
+                      key={link.label}
                       initial={{ opacity: 0, y: -6 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.06 + i * 0.04, duration: 0.25, ease: EASE }}
                     >
                       <a
-                        href="#"
+                        href={link.href}
                         onClick={() => setOpen(false)}
                         className="block rounded-xl px-3 py-2.5 text-sm text-neutral-700 transition-colors hover:bg-black/5 hover:text-neutral-900"
                       >
-                        {link}
+                        {link.label}
                       </a>
                     </motion.li>
                   ))}
                 </ul>
                 <div className="mt-2 flex gap-2 px-1">
-                  <Pill variant="outline" className="flex-1">
-                    Alquilá el estudio
-                  </Pill>
-                  <Pill className="flex-1">Escuchar en vivo</Pill>
+                  <a
+                    href={ADS_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setOpen(false)}
+                    className="inline-flex h-9 flex-1 items-center justify-center rounded-full border border-neutral-300 bg-white px-5 text-sm font-semibold text-neutral-900 transition-all hover:bg-neutral-50 active:scale-95"
+                  >
+                    Anunciá acá
+                  </a>
+                  <a
+                    href="#en-vivo"
+                    onClick={() => setOpen(false)}
+                    className="inline-flex h-9 flex-1 items-center justify-center rounded-full bg-grape px-5 text-sm font-semibold text-white transition-all hover:bg-grape-deep active:scale-95"
+                  >
+                    Escuchar vivo
+                  </a>
                 </div>
               </div>
             </motion.div>
@@ -345,6 +367,9 @@ function MorphButton({
   return (
     <motion.a
       href={href}
+      {...(href.startsWith("http")
+        ? { target: "_blank", rel: "noopener noreferrer" }
+        : {})}
       style={{
         paddingLeft: padX,
         paddingRight: padX,

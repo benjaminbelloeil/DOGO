@@ -8,15 +8,27 @@ import { Reveal } from "./reveal";
 const columns = [
   {
     title: "DOGO",
-    links: ["En vivo", "Programas", "La comunidad", "FAQ"],
+    links: [
+      { label: "En vivo", href: "/#en-vivo" },
+      { label: "Novedades", href: "/#novedades" },
+      { label: "Estudio", href: "/#estudio" },
+      { label: "FAQ", href: "/#faq" },
+    ],
   },
   {
     title: "Programas",
-    links: ["Ya lo Sabía", "Hoja de Ruta"],
+    links: [
+      { label: "Ya lo Sabía", href: "/programas/ya-lo-sabia" },
+      { label: "Hoja de Ruta", href: "/programas/hoja-de-ruta" },
+    ],
   },
   {
     title: "Seguinos",
-    links: ["Instagram", "YouTube", "Facebook"],
+    links: [
+      { label: "Instagram", href: "https://www.instagram.com/dogostreaming" },
+      { label: "YouTube", href: "https://www.youtube.com/@dogostreaming" },
+      { label: "Facebook", href: "https://www.facebook.com/dogostreaming" },
+    ],
   },
 ];
 
@@ -87,17 +99,20 @@ export function Footer() {
 
             {columns.map((col) => (
               <div key={col.title}>
-                <h3 className="text-sm font-semibold text-white">
+                <h3 className="font-display text-sm font-semibold text-white">
                   {col.title}
                 </h3>
                 <ul className="mt-4 space-y-3 text-sm">
                   {col.links.map((link) => (
-                    <li key={link}>
+                    <li key={link.label}>
                       <a
-                        href="#"
+                        href={link.href}
+                        {...(link.href.startsWith("http")
+                          ? { target: "_blank", rel: "noopener noreferrer" }
+                          : {})}
                         className="text-neutral-400 transition-colors hover:text-white"
                       >
-                        {link}
+                        {link.label}
                       </a>
                     </li>
                   ))}
@@ -143,7 +158,7 @@ export function Footer() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 1.2, ease: "easeOut" }}
-            className="-mb-[0.3em] block w-max whitespace-nowrap bg-gradient-to-b from-grape via-grape to-grape/25 bg-clip-text text-[24vw] font-sans font-extrabold leading-none tracking-tighter text-transparent"
+            className="-mb-[0.3em] block w-max whitespace-nowrap bg-gradient-to-b from-grape via-grape to-grape/25 bg-clip-text font-display text-[24vw] font-bold leading-none tracking-tight text-transparent"
           >
             Streaming
           </motion.span>

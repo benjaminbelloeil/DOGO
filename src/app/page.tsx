@@ -9,6 +9,7 @@ import { Studio } from "@/components/site/studio";
 import { Faq } from "@/components/site/faq";
 import { Cta } from "@/components/site/cta";
 import { Footer } from "@/components/site/footer";
+import { RadioPlayer } from "@/components/site/radio-player";
 
 export default function Home() {
   return (
@@ -26,6 +27,7 @@ export default function Home() {
         <Faq />
       </main>
       <Footer />
+      <RadioPlayer />
     </div>
   );
 }

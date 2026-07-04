@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { Container, SectionLabel } from "./primitives";
+import { Container, SectionIntro, SectionLabel, SectionTitle } from "./primitives";
 import { Reveal } from "./reveal";
 
 const faqs = [
@@ -51,18 +51,18 @@ export function Faq() {
   const [open, setOpen] = useState(1);
 
   return (
-    <section className="py-20 sm:py-28">
+    <section id="faq" className="py-20 sm:py-28">
       <Container>
         <div className="grid items-start gap-12 md:grid-cols-[2fr_3fr] lg:gap-20">
           <Reveal from="left">
             <SectionLabel>Preguntas frecuentes</SectionLabel>
-            <h2 className="mt-4 max-w-sm font-display text-3xl font-bold leading-tight tracking-tight text-neutral-900 sm:text-4xl lg:text-5xl">
+            <SectionTitle className="mt-4 max-w-sm">
               Todo lo que necesitás saber
-            </h2>
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-neutral-500">
+            </SectionTitle>
+            <SectionIntro className="mt-4 max-w-sm">
               Las respuestas a las preguntas más comunes sobre DOGO y cómo
               sintonizarnos.
-            </p>
+            </SectionIntro>
             <a
               href="#"
               className="group mt-8 inline-flex h-14 items-center gap-2 self-start rounded-full bg-grape px-7 text-base font-semibold text-white shadow-sm transition-all duration-300 hover:bg-grape-deep hover:shadow-lg hover:shadow-grape/30 active:scale-[0.98]"

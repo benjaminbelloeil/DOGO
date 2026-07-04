@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { Container, Pill } from "./primitives";
+import { Container } from "./primitives";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -105,15 +105,18 @@ export function Hero() {
           </motion.p>
 
           <motion.div variants={item} className="mt-7 flex items-center gap-3">
-            <Pill className="bg-white text-neutral-900 hover:bg-white/90">
+            <a
+              href="#en-vivo"
+              className="inline-flex h-9 items-center justify-center rounded-full bg-white px-5 text-sm font-semibold text-neutral-900 transition-all hover:bg-white/90 active:scale-95"
+            >
               Escuchar en vivo
-            </Pill>
-            <Pill
-              variant="outline"
-              className="border-white/40 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
+            </a>
+            <a
+              href="#programas"
+              className="inline-flex h-9 items-center justify-center rounded-full border border-white/40 bg-white/10 px-5 text-sm font-semibold text-white backdrop-blur-sm transition-all hover:bg-white/20 active:scale-95"
             >
               Nuestros programas
-            </Pill>
+            </a>
           </motion.div>
         </motion.div>
       </Container>

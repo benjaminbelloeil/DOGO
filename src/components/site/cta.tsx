@@ -1,6 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 
-import { Container, SectionLabel } from "./primitives";
+import { Container, SectionIntro, SectionLabel, SectionTitle } from "./primitives";
 import { Reveal } from "./reveal";
 import { ShowsStickers } from "./shows-stickers";
 
@@ -35,14 +35,14 @@ export function Cta() {
             className="relative z-10 flex flex-col justify-center py-8 md:pl-6"
           >
             <SectionLabel>Sumate</SectionLabel>
-            <h2 className="mt-4 max-w-sm font-display text-3xl font-bold leading-[1.05] tracking-tight text-neutral-900 sm:text-4xl lg:text-5xl">
+            <SectionTitle className="mt-4 max-w-sm">
               Seguinos y sé parte de{" "}
               <span className="text-grape">DOGO</span>
-            </h2>
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-neutral-500">
+            </SectionTitle>
+            <SectionIntro className="mt-4 max-w-sm">
               Seguinos en redes, enterate de los vivos y los invitados, y prendé
               la 99.9 de lunes a viernes.
-            </p>
+            </SectionIntro>
             <a
               href="#en-vivo"
               className="group mt-8 inline-flex h-14 items-center gap-2 self-start rounded-full bg-grape px-7 text-base font-semibold text-white shadow-sm transition-all duration-300 hover:bg-grape-deep active:scale-[0.98]"

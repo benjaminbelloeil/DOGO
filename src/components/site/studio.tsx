@@ -1,12 +1,14 @@
 import Image from "next/image";
-import { ArrowUpRight, Mic, Video, Wifi, Snowflake } from "lucide-react";
-import { Container, SectionLabel } from "./primitives";
+import { ArrowUpRight, Mic, Radio, Share2, Snowflake, Video, Wifi } from "lucide-react";
+import { Container, SectionIntro, SectionLabel, SectionTitle } from "./primitives";
 import { Reveal, RevealHeader, RevealItem } from "./reveal";
-import { StudioCarousel } from "./studio-carousel";
 
-// Reemplazá el número por el WhatsApp real de DOGO (formato internacional, sin +).
-const VISIT_URL =
-  "https://wa.me/549XXXXXXXXXX?text=Hola%20DOGO,%20quiero%20agendar%20una%20visita%20al%20estudio";
+const VISIT_URL = `https://wa.me/5493364403310?text=${encodeURIComponent(
+  "¡Hola DOGO! 👋 Quiero agendar una visita al estudio. ¿Cuándo puedo pasar?",
+)}`;
+const ADS_URL = `https://wa.me/5493364403310?text=${encodeURIComponent(
+  "¡Hola DOGO! 👋 Quiero info para anunciar mi marca en sus programas.",
+)}`;
 
 const features = [
   {
@@ -31,78 +33,139 @@ const features = [
   },
 ];
 
+const adPerks = [
+  { icon: Radio, label: "FM 99.9 + streaming" },
+  { icon: Mic, label: "Menciones en vivo" },
+  { icon: Share2, label: "Contenido en redes" },
+];
+
+/** Los dos botones de acción comparten exactamente el mismo estilo. */
+const ctaClass =
+  "group inline-flex h-13 items-center justify-center gap-2.5 whitespace-nowrap rounded-full px-6 text-sm font-semibold text-white shadow-sm transition-all duration-300 active:scale-[0.98] sm:h-14 sm:px-7 sm:text-base";
+
 export function Studio() {
   return (
     <section id="estudio" className="py-20 sm:py-28">
       <Container>
         <RevealHeader>
           <RevealItem>
-            <SectionLabel>Alquilá el estudio</SectionLabel>
+            <SectionLabel>Trabajá con DOGO</SectionLabel>
           </RevealItem>
           <RevealItem>
-            <h2 className="mt-4 max-w-2xl font-display text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl lg:text-5xl">
-              El estudio de DOGO, disponible para tu proyecto
-            </h2>
+            <SectionTitle className="mt-4 max-w-2xl">
+              El estudio y el aire de DOGO, para tu proyecto o tu marca
+            </SectionTitle>
           </RevealItem>
           <RevealItem>
-            <p className="mt-3 max-w-xl text-sm leading-relaxed text-neutral-500">
-              Grabá tu podcast, transmití en vivo o producí tu contenido en un
-              estudio equipado en el corazón de San Nicolás de los Arroyos.
-            </p>
+            <SectionIntro className="mt-4 max-w-xl">
+              Grabá tu podcast, transmití en vivo o producí tu contenido — o
+              poné tu marca a sonar en la radio de San Nicolás.
+            </SectionIntro>
           </RevealItem>
         </RevealHeader>
 
-        {/* Panel de reserva unificado: las fotos mandan a la izquierda y la
-            info + acción concreta (WhatsApp) acompañan a la derecha. */}
+        {/* Díptico "trabajá con DOGO": a la izquierda el estudio como lista
+            editorial; a la derecha la pauta, donde la columna entera ES el
+            aviso vacío. Las dos acciones van juntas en la fila de abajo. */}
         <Reveal className="mt-10">
-          <div className="grid overflow-hidden rounded-[2rem] border border-neutral-200 bg-white md:grid-cols-12">
-            {/* Fotos del estudio, a sangre contra el borde del panel */}
-            <div className="relative md:col-span-7">
-              <StudioCarousel
-                className="h-full"
-                frameClassName="aspect-[16/10] rounded-none border-0 md:aspect-auto md:h-full"
-              />
-            </div>
-
-            {/* Info + CTA */}
-            <div className="flex flex-col p-7 sm:p-9 md:col-span-5">
-              <div className="grid gap-3 sm:grid-cols-2">
-                {features.map(({ icon: Icon, title, desc }) => (
+          <div className="rounded-[2rem] border border-neutral-200 bg-white p-7 sm:p-10 md:p-12">
+            <div className="grid gap-10 md:grid-cols-2 lg:gap-14">
+              {/* Columna 1 · Reservá el estudio */}
+              <div className="divide-y divide-neutral-200">
+                {features.map(({ icon: Icon, title, desc }, i) => (
                   <div
                     key={title}
-                    className="rounded-2xl border border-neutral-200 p-4 transition-colors duration-300 hover:border-grape/40"
+                    className={`group/row flex items-center gap-4 py-4 ${i === 0 ? "pt-0" : ""}`}
                   >
-                    <Icon className="size-5 text-grape" strokeWidth={1.75} />
-                    <h3 className="mt-3 text-sm font-semibold leading-tight text-neutral-900">
-                      {title}
-                    </h3>
-                    <p className="mt-1 text-xs leading-snug text-neutral-500">
-                      {desc}
-                    </p>
+                    <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-grape/[0.07] text-grape transition-colors duration-300 group-hover/row:bg-grape group-hover/row:text-white">
+                      <Icon className="size-5" strokeWidth={1.75} />
+                    </span>
+                    <div className="min-w-0">
+                      <h3 className="font-display text-base font-semibold leading-tight text-neutral-900">
+                        {title}
+                      </h3>
+                      <p className="mt-0.5 text-sm leading-snug text-neutral-500">
+                        {desc}
+                      </p>
+                    </div>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-6 border-t border-neutral-100 pt-6 md:mt-auto">
-                <p className="text-sm leading-relaxed text-neutral-500">
-                  Contanos qué querés grabar y coordinamos día y horario.
+              {/* Columna 2 · Anunciantes: la columna entera es el aviso vacío */}
+              <div
+                id="anunciantes"
+                className="group relative flex flex-col items-center justify-center rounded-[1.5rem] border-2 border-dashed border-neutral-300 bg-neutral-50/80 px-7 py-10 text-center transition-colors duration-300 hover:border-grape/40 sm:px-10"
+              >
+                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 -rotate-2 whitespace-nowrap rounded-full bg-gold px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-ink shadow-sm transition-transform duration-300 group-hover:rotate-0">
+                  Espacio publicitario
+                </span>
+
+                <p className="font-display text-3xl font-bold leading-[1.05] tracking-tight text-neutral-300 sm:text-4xl">
+                  Este espacio
+                  <br />
+                  puede ser <span className="text-grape">tuyo</span>
                 </p>
+                <p className="mx-auto mt-4 max-w-sm text-sm leading-relaxed text-neutral-500">
+                  De lunes a viernes la ciudad escucha DOGO por FM 99.9 y por
+                  streaming. Tu logo, tu mensaje y tu marca sonando todas las
+                  mañanas.
+                </p>
+
+                <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
+                  {adPerks.map(({ icon: Icon, label }) => (
+                    <span
+                      key={label}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-neutral-200 bg-white px-3.5 py-1.5 text-xs font-semibold text-neutral-700"
+                    >
+                      <Icon className="size-3.5 text-grape" strokeWidth={2} />
+                      {label}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Fila de acciones: los dos botones juntos, mismo tamaño. */}
+            <div className="mt-8 flex flex-col gap-4 border-t border-neutral-200 pt-7 sm:mt-10 lg:flex-row lg:items-center lg:justify-between">
+              <p className="max-w-sm text-sm leading-relaxed text-neutral-500">
+                Escribinos por WhatsApp y coordinamos día, horario o propuesta
+                de pauta.
+              </p>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                 <a
                   href={VISIT_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group mt-4 flex h-14 items-center justify-between gap-3 rounded-full bg-grape px-6 text-base font-semibold text-white shadow-sm transition-all duration-300 hover:bg-grape-deep hover:shadow-lg hover:shadow-grape/30 active:scale-[0.98]"
+                  className={`${ctaClass} bg-grape hover:bg-grape-deep hover:shadow-lg hover:shadow-grape/30`}
                 >
-                  <span className="flex items-center gap-2.5">
-                    <Image
-                      src="/icons/whatsapp.png"
-                      alt=""
-                      width={40}
-                      height={40}
-                      className="size-5"
-                    />
-                    Agendar por WhatsApp
-                  </span>
+                  <Image
+                    src="/icons/whatsapp.png"
+                    alt=""
+                    width={40}
+                    height={40}
+                    className="size-5"
+                  />
+                  Agendar el estudio
+                  <ArrowUpRight
+                    className="size-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                    strokeWidth={2}
+                  />
+                </a>
+                <a
+                  href={ADS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${ctaClass} bg-neutral-900 hover:bg-neutral-800 hover:shadow-lg hover:shadow-neutral-900/20`}
+                >
+                  <Image
+                    src="/icons/whatsapp.png"
+                    alt=""
+                    width={40}
+                    height={40}
+                    className="size-5"
+                  />
+                  Anunciá con DOGO
                   <ArrowUpRight
                     className="size-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                     strokeWidth={2}

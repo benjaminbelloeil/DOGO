@@ -17,45 +17,45 @@ const shows: Sticker[] = [
     src: "/brand/dogo-logo-color.png",
     width: 185,
     rotate: -3,
-    initialPosition: { x: 158, y: 22 },
+    initialPosition: { x: 203, y: 22 },
   },
   {
     src: "/shows/instagram.png",
     width: 80,
     rotate: 8,
-    initialPosition: { x: 250, y: 120 },
+    initialPosition: { x: 295, y: 120 },
   },
   {
     src: "/shows/youtube.png",
     width: 92,
     rotate: -7,
-    initialPosition: { x: 246, y: 298 },
+    initialPosition: { x: 291, y: 298 },
   },
   // Left column
   {
     src: "/shows/ya-lo-sabia.png",
     width: 135,
     rotate: -6,
-    initialPosition: { x: 34, y: 112 },
+    initialPosition: { x: 79, y: 112 },
   },
   {
     src: "/shows/argentina.png",
     width: 135,
     rotate: -9,
-    initialPosition: { x: 34, y: 290 },
+    initialPosition: { x: 79, y: 290 },
   },
   // Right column
   {
     src: "/shows/hoja-de-ruta.png",
     width: 108,
     rotate: 6,
-    initialPosition: { x: 360, y: 70 },
+    initialPosition: { x: 405, y: 70 },
   },
   {
     src: "/shows/mate.png",
     width: 130,
     rotate: 10,
-    initialPosition: { x: 358, y: 278 },
+    initialPosition: { x: 403, y: 278 },
     // The mate is a tall die-cut shape with a sparse top edge, so it needs a
     // larger peel than the rectangular posters for the effect to read.
     peelHover: 22,

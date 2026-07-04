@@ -1,28 +1,28 @@
-import { Container, SectionLabel } from "./primitives";
+import { Container, SectionIntro, SectionLabel, SectionTitle } from "./primitives";
 import { RevealHeader, RevealItem } from "./reveal";
 import { BlogsList } from "./blogs-list";
 import { getRecentStreams } from "@/lib/youtube";
 
 export async function Blogs() {
-  const streams = await getRecentStreams(3);
+  const streams = await getRecentStreams(6);
 
   return (
-    <section className="py-20 sm:py-28">
+    <section id="novedades" className="py-20 sm:py-28">
       <Container>
         <RevealHeader>
           <RevealItem>
             <SectionLabel>Novedades</SectionLabel>
           </RevealItem>
           <RevealItem>
-            <h2 className="mt-4 max-w-2xl font-display text-3xl font-bold leading-tight tracking-tight text-neutral-900 sm:text-4xl lg:text-5xl">
+            <SectionTitle className="mt-4 max-w-2xl">
               Lo último de DOGO: revíví los streams completos
-            </h2>
+            </SectionTitle>
           </RevealItem>
           <RevealItem>
-            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-neutral-500">
+            <SectionIntro className="mt-4 max-w-2xl">
               Mirá las transmisiones más recientes de nuestro canal de YouTube y
               ponete al día con todo lo que pasó al aire.
-            </p>
+            </SectionIntro>
           </RevealItem>
         </RevealHeader>
 

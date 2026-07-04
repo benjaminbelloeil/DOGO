@@ -1,8 +1,13 @@
 import Image from "next/image";
 
 import { cn } from "@/lib/utils";
-import { Container, Pill, SectionLabel } from "./primitives";
+import { Container, SectionIntro, SectionLabel, SectionTitle } from "./primitives";
 import { RevealGroup, RevealHeader, RevealItem } from "./reveal";
+
+// WhatsApp para participar del programa: proponer temas, mandar info o videos.
+const TOPICS_URL = `https://wa.me/5493364009374?text=${encodeURIComponent(
+  "¡Hola DOGO! 👋 Quiero proponer un tema o mandar algo para el programa:",
+)}`;
 
 type Testimonial = {
   quote: string;
@@ -132,22 +137,29 @@ export function Testimonials() {
             <SectionLabel>Testimonios</SectionLabel>
           </RevealItem>
           <RevealItem>
-            <h2 className="mt-4 max-w-2xl font-display text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl lg:text-5xl">
+            <SectionTitle className="mt-4 max-w-2xl">
               La radio que San Nicolás siente propia
-            </h2>
+            </SectionTitle>
           </RevealItem>
           <RevealItem>
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-neutral-500">
+            <SectionIntro className="mt-4 max-w-md">
               Escuchá por qué la gente de la ciudad elige DOGO todos los días
               para informarse, reírse y sentirse parte.
-            </p>
+            </SectionIntro>
           </RevealItem>
           <RevealItem>
-            <div className="mt-6 flex items-center gap-3">
+            <div className="mt-6 flex flex-wrap items-center gap-3">
               <span className="text-sm font-medium text-neutral-900">
-                ¿Querés salir al aire?
+                ¿Tenés un tema, una info o un video para el aire?
               </span>
-              <Pill>Sumate</Pill>
+              <a
+                href={TOPICS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-9 items-center justify-center rounded-full bg-grape px-5 text-sm font-semibold text-white transition-all hover:bg-grape-deep active:scale-95"
+              >
+                Escribinos
+              </a>
             </div>
           </RevealItem>
         </RevealHeader>

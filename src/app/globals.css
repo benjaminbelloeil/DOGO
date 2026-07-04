@@ -137,6 +137,16 @@
   html {
     @apply font-sans;
   }
+  /* Scroll suave hacia las anclas del navbar, respetando reduced motion. */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  /* La barra flota sobre el contenido: dejá aire al llegar a cada ancla. */
+  [id] {
+    scroll-margin-top: 5.5rem;
+  }
 }
 /* Barras de ecualizador junto a "en vivo": cada barra respira a destiempo. */
 @keyframes eq {
