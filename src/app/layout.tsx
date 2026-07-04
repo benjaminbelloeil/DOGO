@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Fredoka } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -22,9 +23,38 @@ const fredoka = Fredoka({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "DOGO Streaming — Entrevistas, humor y actualidad por FM 99.9",
   description:
     "La señal de San Nicolás de los Arroyos. Entrevistas, humor y actualidad en vivo de lunes a viernes por FM 99.9.",
+  applicationName: "DOGO Streaming",
+  keywords: [
+    "DOGO Streaming",
+    "DOGO Stream",
+    "DOGO",
+    "radio San Nicolás",
+    "FM 99.9",
+    "streaming San Nicolás de los Arroyos",
+    "Ya lo Sabía",
+    "Hoja de Ruta",
+  ],
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: "DOGO Streaming",
+    locale: "es_AR",
+    title: "DOGO Streaming — El streaming de San Nicolás",
+    description:
+      "Entrevistas, humor y actualidad en vivo de lunes a viernes por FM 99.9 y YouTube, desde San Nicolás de los Arroyos.",
+    images: [{ url: "/hero/hero-poster.jpg", width: 1920, height: 1080 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DOGO Streaming — El streaming de San Nicolás",
+    description:
+      "Entrevistas, humor y actualidad en vivo por FM 99.9 y YouTube.",
+    images: ["/hero/hero-poster.jpg"],
+  },
 };
 
 export default function RootLayout({

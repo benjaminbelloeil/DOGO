@@ -5,31 +5,9 @@ import { AnimatePresence, motion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { faqs } from "@/lib/faqs";
 import { Container, SectionIntro, SectionLabel, SectionTitle } from "./primitives";
 import { Reveal } from "./reveal";
-
-const faqs = [
-  {
-    q: "¿Dónde escucho DOGO?",
-    a: "En el 99.9 de tu dial FM en San Nicolás de los Arroyos, y en vivo a través de nuestras redes.",
-  },
-  {
-    q: "¿En qué horario transmiten?",
-    a: "Estamos en vivo de lunes a viernes. Revisá nuestros programas para conocer cada propuesta.",
-  },
-  {
-    q: "¿Puedo verlos por internet?",
-    a: "Sí, transmitimos en vivo y compartimos los mejores momentos en nuestras redes sociales.",
-  },
-  {
-    q: "¿Cómo participo o propongo un tema?",
-    a: "Escribinos por nuestras redes o mandanos tu mensaje al aire. Siempre hay lugar para la gente de la ciudad.",
-  },
-  {
-    q: "¿Cómo sumo mi marca a DOGO?",
-    a: "Contactanos y te contamos las opciones de pauta y auspicio en nuestros programas.",
-  },
-];
 
 function PlusIcon({ className }: { className?: string }) {
   return (
@@ -64,7 +42,11 @@ export function Faq() {
               sintonizarnos.
             </SectionIntro>
             <a
-              href="#"
+              href={`https://wa.me/5493364009374?text=${encodeURIComponent(
+                "¡Hola DOGO! 👋 Tengo una consulta:",
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group mt-8 inline-flex h-14 items-center gap-2 self-start rounded-full bg-grape px-7 text-base font-semibold text-white shadow-sm transition-all duration-300 hover:bg-grape-deep hover:shadow-lg hover:shadow-grape/30 active:scale-[0.98]"
             >
               Escribinos
@@ -118,7 +100,7 @@ export function Faq() {
                         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                         className="overflow-hidden"
                       >
-                        <p className="max-w-md pb-6 text-sm leading-relaxed text-neutral-500">
+                        <p className="max-w-2xl pb-6 text-sm leading-relaxed text-neutral-500">
                           {item.a}
                         </p>
                       </motion.div>

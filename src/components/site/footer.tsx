@@ -27,6 +27,7 @@ const columns = [
     links: [
       { label: "Instagram", href: "https://www.instagram.com/dogostreaming" },
       { label: "YouTube", href: "https://www.youtube.com/@dogostreaming" },
+      { label: "Twitch", href: "https://www.twitch.tv/dogostreaming" },
       { label: "Facebook", href: "https://www.facebook.com/dogostreaming" },
     ],
   },
@@ -51,15 +52,18 @@ function FooterLogo() {
 
 const socials = [
   {
-    label: "X",
-    path: "M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.65l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644Z",
+    label: "Twitch",
+    href: "https://www.twitch.tv/dogostreaming",
+    path: "M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z",
   },
   {
     label: "Instagram",
+    href: "https://www.instagram.com/dogostreaming",
     path: "M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.21 15.58 2.2 15.2 2.2 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.21 8.8 2.2 12 2.2Zm0 1.8c-3.14 0-3.51.01-4.75.07-.9.04-1.39.19-1.71.32-.43.17-.74.37-1.06.69-.32.32-.52.63-.69 1.06-.13.32-.28.81-.32 1.71-.06 1.24-.07 1.61-.07 4.75s.01 3.51.07 4.75c.04.9.19 1.39.32 1.71.17.43.37.74.69 1.06.32.32.63.52 1.06.69.32.13.81.28 1.71.32 1.24.06 1.61.07 4.75.07s3.51-.01 4.75-.07c.9-.04 1.39-.19 1.71-.32.43-.17.74-.37 1.06-.69.32-.32.52-.63.69-1.06.13-.32.28-.81.32-1.71.06-1.24.07-1.61.07-4.75s-.01-3.51-.07-4.75c-.04-.9-.19-1.39-.32-1.71a2.85 2.85 0 0 0-.69-1.06 2.85 2.85 0 0 0-1.06-.69c-.32-.13-.81-.28-1.71-.32C15.51 4.01 15.14 4 12 4Zm0 3.06A4.94 4.94 0 1 1 12 16.94 4.94 4.94 0 0 1 12 7.06Zm0 1.8a3.14 3.14 0 1 0 0 6.28 3.14 3.14 0 0 0 0-6.28Zm5.14-.62a1.15 1.15 0 1 1-2.3 0 1.15 1.15 0 0 1 2.3 0Z",
   },
   {
     label: "YouTube",
+    href: "https://www.youtube.com/@dogostreaming",
     path: "M23.5 6.5a3.02 3.02 0 0 0-2.12-2.14C19.5 3.86 12 3.86 12 3.86s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.5C0 8.38 0 12 0 12s0 3.62.5 5.5a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.62 24 12 24 12s0-3.62-.5-5.5ZM9.6 15.6V8.4l6.2 3.6-6.2 3.6Z",
   },
 ];
@@ -69,7 +73,7 @@ export function Footer() {
 
   return (
     <footer className="relative overflow-hidden bg-neutral-950 text-neutral-400">
-      <Container className="max-w-6xl py-16">
+      <Container className="py-16">
         <Reveal>
           <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
             <div className="max-w-xs">
@@ -79,22 +83,21 @@ export function Footer() {
                 Arroyos, en vivo de lunes a viernes por FM 99.9.
               </p>
 
-              <form
-                className="mt-6 flex max-w-sm items-center gap-2 rounded-full border border-white/10 bg-white/5 p-1 pl-4"
-                onSubmit={(e) => e.preventDefault()}
+              {/* El aviso real de los vivos: la campanita de YouTube (el
+                  form de email anterior no tenía ningún servicio atrás). */}
+              <a
+                href="https://www.youtube.com/@dogostreaming?sub_confirmation=1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group mt-6 flex max-w-sm items-center gap-2 rounded-full border border-white/10 bg-white/5 p-1 pl-4 transition-colors hover:border-white/25"
               >
-                <input
-                  type="email"
-                  placeholder="Dejanos tu email"
-                  className="h-8 flex-1 bg-transparent text-sm text-white placeholder:text-neutral-500 focus:outline-none"
-                />
-                <button
-                  type="submit"
-                  className="inline-flex h-8 items-center rounded-full bg-white px-4 text-sm font-medium text-neutral-900 transition-transform active:scale-95"
-                >
-                  Enterate
-                </button>
-              </form>
+                <span className="h-8 flex-1 content-center truncate text-sm text-neutral-500 transition-colors group-hover:text-neutral-300">
+                  Enterate de los vivos
+                </span>
+                <span className="inline-flex h-8 shrink-0 items-center rounded-full bg-white px-4 text-sm font-medium text-neutral-900 transition-transform group-active:scale-95">
+                  Suscribirme
+                </span>
+              </a>
             </div>
 
             {columns.map((col) => (
@@ -131,7 +134,9 @@ export function Footer() {
               {socials.map((s) => (
                 <a
                   key={s.label}
-                  href="#"
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={s.label}
                   className="flex size-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-neutral-400 transition-colors hover:bg-white hover:text-neutral-900"
                 >
@@ -152,7 +157,7 @@ export function Footer() {
         aria-hidden
         className="pointer-events-none -mt-[3vw] select-none overflow-hidden"
       >
-        <div className="mx-auto max-w-6xl px-6">
+        <div className="mx-auto w-full max-w-[1600px] px-6 sm:px-8 lg:px-14">
           <motion.span
             initial={reduce ? false : { opacity: 0 }}
             whileInView={{ opacity: 1 }}

@@ -21,9 +21,20 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const show = getShow((await params).slug);
   if (!show) return {};
+  const canonical = `/programas/${show.slug}`;
   return {
     title: `${show.name} — DOGO Streaming`,
     description: `${show.tagline}. ${show.description}`,
+    alternates: { canonical },
+    openGraph: {
+      type: "website",
+      url: canonical,
+      siteName: "DOGO Streaming",
+      locale: "es_AR",
+      title: `${show.name} — DOGO Streaming`,
+      description: `${show.tagline}. ${show.description}`,
+      images: [{ url: show.logo }],
+    },
   };
 }
 
