@@ -15,7 +15,11 @@ type Status = "idle" | "loading" | "playing" | "error";
 function PlayIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
-      <path d="M6 5.14v13.72a1 1 0 0 0 1.54.84l10.3-6.86a1 1 0 0 0 0-1.68L7.54 4.3A1 1 0 0 0 6 5.14Z" />
+      {/* Corrimiento óptico: el triángulo centrado a ojo, no a regla. */}
+      <path
+        d="M6 5.14v13.72a1 1 0 0 0 1.54.84l10.3-6.86a1 1 0 0 0 0-1.68L7.54 4.3A1 1 0 0 0 6 5.14Z"
+        transform="translate(1.2 0)"
+      />
     </svg>
   );
 }

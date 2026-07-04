@@ -93,7 +93,11 @@ export async function LiveSocial() {
                 <span className="absolute inset-0 grid place-items-center">
                   <span className="flex size-16 items-center justify-center rounded-full bg-white/15 text-white ring-1 ring-white/40 backdrop-blur transition-all duration-300 group-hover:scale-110 group-hover:bg-white group-hover:text-neutral-900">
                     <svg viewBox="0 0 24 24" fill="currentColor" className="size-6" aria-hidden>
-                      <path d="M6 5.14v13.72a1 1 0 0 0 1.54.84l10.3-6.86a1 1 0 0 0 0-1.68L7.54 4.3A1 1 0 0 0 6 5.14Z" />
+                      {/* Corrimiento óptico: el triángulo centrado a ojo. */}
+                      <path
+                        d="M6 5.14v13.72a1 1 0 0 0 1.54.84l10.3-6.86a1 1 0 0 0 0-1.68L7.54 4.3A1 1 0 0 0 6 5.14Z"
+                        transform="translate(1.2 0)"
+                      />
                     </svg>
                   </span>
                 </span>

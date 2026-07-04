@@ -165,7 +165,14 @@ export function Navbar() {
           className="grid w-full shrink-0 grid-cols-[1fr_auto_1fr] items-center px-5"
         >
           <div className="justify-self-start">
-            <MorphLogo p={p} open={open} />
+            <a
+              href="/"
+              aria-label="Ir al inicio de DOGO Streaming"
+              onClick={() => setOpen(false)}
+              className="block"
+            >
+              <MorphLogo p={p} open={open} />
+            </a>
           </div>
 
           <motion.ul
