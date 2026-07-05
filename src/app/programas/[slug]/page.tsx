@@ -6,8 +6,9 @@ import { ArrowUpRight, ChevronRight, Radio } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { getShow, shows, type Show } from "@/lib/shows";
-import { Container, Logo, SectionTitle } from "@/components/site/primitives";
+import { Container, SectionTitle } from "@/components/site/primitives";
 import { Parallax, Reveal, RevealGroup, RevealHeader, RevealItem } from "@/components/site/reveal";
+import { Navbar } from "@/components/site/navbar";
 import { Footer } from "@/components/site/footer";
 
 export function generateStaticParams() {
@@ -50,7 +51,15 @@ function YoutubeIcon({ className }: { className?: string }) {
 function InstagramIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
-      <path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.21 15.58 2.2 15.2 2.2 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.21 8.8 2.2 12 2.2Zm0 1.8c-3.14 0-3.51.01-4.75.07-.9.04-1.39.19-1.71.32-.43.17-.74.37-1.06.69-.32.32-.52.63-.69 1.06-.13.32-.28.81-.32 1.71-.06 1.24-.07 1.61-.07 4.75s.01 3.51.07 4.75c.04.9.19 1.39.32 1.71.17.43.37.74.69 1.06.32.32.63.52 1.06.69.32.13.81.28 1.71.32 1.24.06 1.61.07 4.75.07s3.51-.01 4.75-.07c.9-.04 1.39-.19 1.71-.32.43-.17.74-.37 1.06-.69.32-.32.52-.63.69-1.06.13-.32.28-.81.32-1.71.06-1.24.07-1.61.07-4.75s-.01-3.51-.07-4.75c-.04-.9-.19-1.39-.32-1.71a2.85 2.85 0 0 0-.69-1.06 2.85 2.85 0 0 0-1.06-.69c-.32-.13-.81-.28-1.71-.32C15.51 4.01 15.14 4 12 4Zm0 3.06A4.94 4.94 0 1 1 12 16.94 4.94 4.94 0 0 1 12 7.06Zm0 1.8a3.14 3.14 0 1 0 0 6.28 3.14 3.14 0 0 0 0-6.28Zm5.14-.62a1.15 1.15 0 1 1-2.3 0 1.15 1.15 0 0 1 2.3 0Z" />
+      <path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.4218-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077" />
+    </svg>
+  );
+}
+
+function TikTokIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
+      <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
     </svg>
   );
 }
@@ -68,7 +77,9 @@ function whereToWatch(show: Show) {
     {
       icon: Radio,
       title: "FM 99.9",
-      desc: "En la radio, en San Nicolás y alrededores.",
+      desc: show.comingSoon
+        ? `Muy pronto al aire: ${show.schedule.toLowerCase()} en la radio.`
+        : "En la radio, en San Nicolás y alrededores.",
       cta: "Sintonizá la 99.9",
       href: "/#en-vivo",
       external: false,
@@ -89,6 +100,18 @@ function whereToWatch(show: Show) {
       href: show.instagram,
       external: true,
     },
+    ...(show.tiktok
+      ? [
+          {
+            icon: TikTokIcon,
+            title: "TikTok",
+            desc: `Los mejores momentos de ${show.name}, en corto.`,
+            cta: "Ver los clips",
+            href: show.tiktok,
+            external: true,
+          },
+        ]
+      : []),
     ...(show.whatsapp
       ? [
           {
@@ -137,16 +160,11 @@ export default async function ProgramPage({
 
   return (
     <div className="min-h-screen bg-neutral-100 font-sans text-neutral-900">
-      {/* Barra superior liviana: logo a casa + acceso directo al vivo. */}
-      <header className="border-b border-neutral-200/80 bg-neutral-100/90 backdrop-blur">
-        <Container className="flex h-16 items-center">
-          <Link href="/" aria-label="Ir al inicio de DOGO Streaming">
-            <Logo />
-          </Link>
-        </Container>
-      </header>
+      {/* El mismo navbar del inicio, en modo sólido (acá no hay hero oscuro
+          detrás: nace directamente como la píldora blanca). */}
+      <Navbar solid />
 
-      <main className="pb-24">
+      <main className="pb-24 pt-24">
         <Container>
           {/* Miga de pan: Inicio / Programa */}
           <Reveal distance={12}>
@@ -186,10 +204,10 @@ export default async function ProgramPage({
                 </span>
 
                 <span className="absolute left-6 top-6 z-10 -rotate-2 rounded-full bg-gold px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-ink shadow-sm">
-                  {show.schedule}
+                  {show.comingSoon ? "Próximamente" : show.schedule}
                 </span>
                 <span className="absolute bottom-6 right-6 z-10 rotate-2 rounded-full border border-neutral-200 bg-white px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-neutral-900 shadow-sm">
-                  FM 99.9 · En vivo
+                  {show.comingSoon ? show.schedule : "FM 99.9 · En vivo"}
                 </span>
 
                 <Parallax distance={24} className="relative z-10">
@@ -247,27 +265,59 @@ export default async function ProgramPage({
                 </div>
 
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-                  <Link
-                    href="/#en-vivo"
-                    className={cn(
-                      "group inline-flex h-12 items-center justify-center gap-2 rounded-full px-6 text-sm font-semibold text-white shadow-sm transition-all duration-300 active:scale-[0.98]",
-                      show.accentButtonClass,
-                    )}
-                  >
-                    Ver en vivo
-                    <ArrowUpRight
-                      className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                      strokeWidth={2.5}
-                    />
-                  </Link>
-                  <a
-                    href={show.youtube}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-neutral-300 bg-white px-6 text-sm font-semibold text-neutral-900 transition-all hover:bg-neutral-50 active:scale-[0.98]"
-                  >
-                    Programas anteriores
-                  </a>
+                  {show.comingSoon ? (
+                    /* Sin vivo que ver todavía: mandamos a los programas
+                       anteriores del canal y a seguirlo para el estreno. */
+                    <>
+                      <a
+                        href={show.youtube}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={cn(
+                          "group inline-flex h-12 items-center justify-center gap-2 rounded-full px-6 text-sm font-semibold text-white shadow-sm transition-all duration-300 active:scale-[0.98]",
+                          show.accentButtonClass,
+                        )}
+                      >
+                        Programas anteriores
+                        <ArrowUpRight
+                          className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                          strokeWidth={2.5}
+                        />
+                      </a>
+                      <a
+                        href={show.instagram}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-neutral-300 bg-white px-6 text-sm font-semibold text-neutral-900 transition-all hover:bg-neutral-50 active:scale-[0.98]"
+                      >
+                        Seguilo para el estreno
+                      </a>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        href="/#en-vivo"
+                        className={cn(
+                          "group inline-flex h-12 items-center justify-center gap-2 rounded-full px-6 text-sm font-semibold text-white shadow-sm transition-all duration-300 active:scale-[0.98]",
+                          show.accentButtonClass,
+                        )}
+                      >
+                        Ver en vivo
+                        <ArrowUpRight
+                          className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                          strokeWidth={2.5}
+                        />
+                      </Link>
+                      <a
+                        href={show.youtube}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-neutral-300 bg-white px-6 text-sm font-semibold text-neutral-900 transition-all hover:bg-neutral-50 active:scale-[0.98]"
+                      >
+                        Programas anteriores
+                      </a>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -302,13 +352,10 @@ export default async function ProgramPage({
               </RevealItem>
             </RevealHeader>
 
+            {/* Siempre en filas de tres: las tarjetas miden lo mismo en todos
+                los programas, tengan 4 o 5 lugares donde verlos. */}
             <RevealGroup
-              className={cn(
-                "mt-10 grid gap-5",
-                whereToWatch(show).length === 4
-                  ? "sm:grid-cols-2 lg:grid-cols-4"
-                  : "md:grid-cols-3",
-              )}
+              className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
               stagger={0.1}
             >
               {whereToWatch(show).map(({ icon: Icon, ...place }) => (
@@ -448,7 +495,7 @@ export default async function ProgramPage({
                       />
                     </svg>
                     <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-400">
-                      También al aire
+                      {other.comingSoon ? "Próximamente en DOGO" : "También al aire"}
                     </span>
                     <span className="mt-2 font-display text-xl font-bold tracking-tight text-neutral-900 sm:text-2xl">
                       {other.name}

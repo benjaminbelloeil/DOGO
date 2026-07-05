@@ -16,12 +16,15 @@ import {
 import { Megaphone, Radio } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+// Con "/" adelante los links sirven desde cualquier página: en la home el
+// navegador los trata como anclas (scroll suave) y en las páginas de
+// programas navegan al inicio y aterrizan en la sección.
 const links = [
-  { label: "En vivo", href: "#en-vivo" },
-  { label: "Programas", href: "#programas" },
-  { label: "Novedades", href: "#novedades" },
-  { label: "Estudio", href: "#estudio" },
-  { label: "FAQ", href: "#faq" },
+  { label: "En vivo", href: "/#en-vivo" },
+  { label: "Programas", href: "/#programas" },
+  { label: "Novedades", href: "/#novedades" },
+  { label: "Estudio", href: "/#estudio" },
+  { label: "FAQ", href: "/#faq" },
 ];
 
 // WhatsApp para pauta publicitaria (anunciar en los programas de DOGO).
@@ -36,7 +39,7 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 // state ever shows low-contrast text.
 const THEME: [number, number] = [0.45, 0.82];
 
-export function Navbar() {
+export function Navbar({ solid = false }: { solid?: boolean }) {
   const { scrollY } = useScroll();
   const [open, setOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
@@ -70,7 +73,10 @@ export function Navbar() {
   }, [open]);
 
   // p: 0 at the very top → 1 once scrolled ~120px. Drives the whole morph.
-  const p = useTransform(scrollY, [0, 120], [0, 1], { clamp: true });
+  // En modo `solid` (páginas sin hero oscuro) la barra nace ya como píldora.
+  const scrolledP = useTransform(scrollY, [0, 120], [0, 1], { clamp: true });
+  const solidP = useMotionValue(1);
+  const p = solid ? solidP : scrolledP;
 
   // Width collapse: a discrete switch, not a fade. The CTAs show full labels
   // while there's room (≥1200px) and snap to icon-only once the window narrows
@@ -203,7 +209,7 @@ export function Navbar() {
             <MorphButton
               collapse={ctaCollapse}
               scrollP={p}
-              href="#en-vivo"
+              href="/#en-vivo"
               label="Escuchar vivo"
               icon={Radio}
               variant="solid"
@@ -261,7 +267,7 @@ export function Navbar() {
                     Anunciá acá
                   </a>
                   <a
-                    href="#en-vivo"
+                    href="/#en-vivo"
                     onClick={() => setOpen(false)}
                     className="inline-flex h-9 flex-1 items-center justify-center rounded-full bg-grape px-5 text-sm font-semibold text-white transition-all hover:bg-grape-deep active:scale-95"
                   >

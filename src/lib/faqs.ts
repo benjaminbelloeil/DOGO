@@ -15,7 +15,7 @@ export const faqs = [
   },
   {
     q: "¿Puedo ver los programas por internet?",
-    a: "Sí, todos. Cada programa se transmite en vivo por YouTube y queda grabado completo en el canal, así que si te perdiste una mañana podés revivirla entera cuando quieras — en la sección Novedades de este sitio siempre están los últimos streams listos para ver. Además, los mejores momentos, clips y avisos van a nuestro Instagram y Facebook (@dogostreaming).",
+    a: "Sí, todos. Cada programa se transmite en vivo por YouTube y queda grabado completo en el canal, así que si te perdiste una mañana podés revivirla entera cuando quieras — en la sección Novedades de este sitio siempre están los últimos streams listos para ver. Además, los mejores momentos, clips y avisos van a nuestro Instagram, TikTok y Twitch (@dogostreaming en todas).",
   },
   {
     q: "¿Cómo participo o propongo un tema?",

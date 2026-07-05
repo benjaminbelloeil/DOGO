@@ -80,7 +80,9 @@ export function Hero() {
           initial={reduce ? false : "hidden"}
           animate="show"
         >
-          <h1 className="max-w-4xl font-display text-6xl font-bold leading-[0.95] tracking-tight text-white drop-shadow-[0_2px_20px_rgba(0,0,0,0.35)] sm:text-7xl lg:text-8xl">
+          {/* En base va un paso más chico para que "El streaming de" entre en
+              una sola línea en un teléfono de 390px. */}
+          <h1 className="max-w-4xl font-display text-[2.75rem] font-bold leading-[0.95] tracking-tight text-white drop-shadow-[0_2px_20px_rgba(0,0,0,0.35)] sm:text-7xl lg:text-8xl">
             {"El streaming de".split(" ").map((word, i) => (
               <motion.span
                 key={`${word}-${i}`}
@@ -104,16 +106,21 @@ export function Hero() {
             información que importa y mucha buena onda.
           </motion.p>
 
-          <motion.div variants={item} className="mt-7 flex items-center gap-3">
+          {/* En el teléfono los botones van apilados a lo ancho (y más altos,
+              para el pulgar); de sm en adelante, lado a lado como siempre. */}
+          <motion.div
+            variants={item}
+            className="mt-7 flex w-full max-w-[17rem] flex-col items-stretch gap-3 sm:w-auto sm:max-w-none sm:flex-row sm:items-center"
+          >
             <a
               href="#en-vivo"
-              className="inline-flex h-9 items-center justify-center rounded-full bg-white px-5 text-sm font-semibold text-neutral-900 transition-all hover:bg-white/90 active:scale-95"
+              className="inline-flex h-11 items-center justify-center whitespace-nowrap rounded-full bg-white px-6 text-sm font-semibold text-neutral-900 transition-all hover:bg-white/90 active:scale-95 sm:h-9 sm:px-5"
             >
               Escuchar en vivo
             </a>
             <a
               href="#programas"
-              className="inline-flex h-9 items-center justify-center rounded-full border border-white/40 bg-white/10 px-5 text-sm font-semibold text-white backdrop-blur-sm transition-all hover:bg-white/20 active:scale-95"
+              className="inline-flex h-11 items-center justify-center whitespace-nowrap rounded-full border border-white/40 bg-white/10 px-6 text-sm font-semibold text-white backdrop-blur-sm transition-all hover:bg-white/20 active:scale-95 sm:h-9 sm:px-5"
             >
               Nuestros programas
             </a>

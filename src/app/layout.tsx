@@ -65,6 +65,9 @@ export default function RootLayout({
   return (
     <html
       lang="es-AR"
+      // Next corta el smooth scroll durante las navegaciones (evita el
+      // "viaje" desde abajo al entrar a una página) y lo deja para anclas.
+      data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${geistMono.variable} ${fredoka.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>

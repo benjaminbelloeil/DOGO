@@ -22,9 +22,9 @@ export function Features() {
           </RevealItem>
           <RevealItem>
             <SectionIntro className="mt-4 max-w-md">
-              Dos producciones propias, en vivo por FM 99.9 y por streaming:
-              Ya lo Sabía de lunes a viernes y Hoja de Ruta los sábados, de 10
-              a 12 h.
+              Dos producciones propias por FM 99.9 y streaming: Ya lo Sabía en
+              vivo de lunes a viernes de 10 a 12 h, y muy pronto Hoja de Ruta
+              los sábados.
             </SectionIntro>
           </RevealItem>
         </RevealHeader>
@@ -62,9 +62,18 @@ export function Features() {
                     {show.bgWord}
                   </span>
 
-                  <span className="absolute left-5 top-5 z-10 inline-flex items-center gap-1.5 rounded-full border border-neutral-200 bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-neutral-900 shadow-sm">
-                    <span className="size-1.5 rounded-full bg-neutral-900" />
-                    {show.schedule}
+                  <span
+                    className={cn(
+                      "absolute left-5 top-5 z-10 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wide shadow-sm",
+                      show.comingSoon
+                        ? "-rotate-2 bg-gold tracking-[0.14em] text-ink"
+                        : "border border-neutral-200 bg-white text-neutral-900",
+                    )}
+                  >
+                    {!show.comingSoon && (
+                      <span className="size-1.5 rounded-full bg-neutral-900" />
+                    )}
+                    {show.comingSoon ? "Próximamente" : show.schedule}
                   </span>
                   <Parallax distance={20} className="relative z-10">
                     <Image

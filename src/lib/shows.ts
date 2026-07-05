@@ -9,6 +9,8 @@
 export type Show = {
   slug: string;
   name: string;
+  /** Todavía no estrenó en DOGO: el sitio lo anuncia como "próximamente". */
+  comingSoon?: boolean;
   tagline: string;
   /** Bajada corta de la tarjeta de portada. */
   description: string;
@@ -25,6 +27,8 @@ export type Show = {
   /** Canal de YouTube con los programas completos. */
   youtube: string;
   instagram: string;
+  /** Cuenta de TikTok con los clips del programa, si tiene. */
+  tiktok?: string;
   /** WhatsApp propio del programa (link wa.me), si tiene. */
   whatsapp?: string;
   logo: string;
@@ -64,6 +68,7 @@ export const shows: Show[] = [
     ],
     youtube: "https://www.youtube.com/@dogostreaming",
     instagram: "https://www.instagram.com/dogostreaming",
+    tiktok: "https://www.tiktok.com/@dogostreaming",
     // El WhatsApp de DOGO Streaming para info del programa y de la audiencia.
     whatsapp: `https://wa.me/5493364009374?text=${encodeURIComponent(
       "¡Hola DOGO! 👋 Quiero info sobre Ya lo Sabía.",
@@ -83,6 +88,7 @@ export const shows: Show[] = [
   {
     slug: "hoja-de-ruta",
     name: "Hoja de Ruta",
+    comingSoon: true,
     tagline: "Periodismo independiente desde 2010",
     description:
       "Entrevistas políticas y actualidad, con la impronta de siempre: periodismo independiente. Un clásico de la radio nicoleña, renovado para el streaming.",
