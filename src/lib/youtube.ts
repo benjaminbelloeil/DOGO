@@ -245,13 +245,19 @@ async function getStoryboardStills(videoId: string): Promise<Still[]> {
 }
 
 /**
- * Fotogramas a mostrar por video: una captura fija en HD como imagen de
- * reposo y después el recorrido del storyboard por TODO el stream. En los
- * vivos archivados las capturas fijas de YouTube salen todas del arranque
- * del video, así que el storyboard (320×180, la única fuente que recorre la
- * duración completa) es el que aporta el paseo por el programa. Los videos
- * con capturas vetadas a mano (época con Karina) quedan solo con sus
- * fotogramas revisados — el storyboard podría mostrarla de nuevo.
+ * Fotogramas a mostrar por video. El PRIMERO es la imagen de reposo de las
+ * tarjetas, y tiene que ser un momento real del stream (nunca el logo ni la
+ * placa negra del arranque):
+ *
+ *   1. la primera captura fija en HD (1280×720) si YouTube ya la generó;
+ *   2. si todavía no existe (video recién subido), el fotograma del MEDIO del
+ *      storyboard — a mitad de programa siempre hay estudio andando;
+ *   3. sin nada de eso, la UI cae a la miniatura del canal.
+ *
+ * Después del primero va el recorrido del storyboard por todo el stream para
+ * la rotación en hover. Los videos con capturas vetadas a mano (época con
+ * Karina) quedan solo con sus fotogramas revisados — el storyboard podría
+ * mostrarla de nuevo.
  */
 async function getStills(videoId: string): Promise<Still[]> {
   const reviewed = videoId in EXCLUDED_FRAMES;
@@ -260,8 +266,10 @@ async function getStills(videoId: string): Promise<Still[]> {
 
   const storyboard = await getStoryboardStills(videoId);
   if (!storyboard.length) return fixed;
+  if (fixed.length) return [fixed[0], ...storyboard];
 
-  return [...fixed.slice(0, 1), ...storyboard];
+  const mid = storyboard[Math.floor(storyboard.length / 2)];
+  return [mid, ...storyboard.filter((s) => s !== mid)];
 }
 
 function pickThumbnail(thumbs?: YtThumbnails): string | undefined {
@@ -328,17 +336,23 @@ async function rssStreams(limit: number): Promise<Stream[] | null> {
     return Promise.all(
       entries.map(async (entry) => {
         const stills = await getStills(entry.videoId);
+        // La miniatura del video (la tarjeta que sube el canal): en HD si ya
+        // existe. Sin capturas reales todavía (video recién subido), la
+        // estándar es la imagen gris de relleno: mejor nuestro placeholder.
+        const thumbnail = (await imageExists(
+          `https://i.ytimg.com/vi/${entry.videoId}/maxresdefault.jpg`,
+        ))
+          ? `https://i.ytimg.com/vi/${entry.videoId}/maxresdefault.jpg`
+          : stills.length
+            ? `https://i.ytimg.com/vi/${entry.videoId}/hqdefault.jpg`
+            : undefined;
         return {
           title: entry.title || "Stream de DOGO",
           summary: summarize(entry.description),
           duration: "",
           durationLabel: formatPublished(entry.published),
           url: `https://www.youtube.com/watch?v=${entry.videoId}`,
-          // Sin capturas reales (video recién subido), la miniatura estándar
-          // también es la imagen gris de relleno: mejor nuestro placeholder.
-          thumbnail: stills.length
-            ? `https://i.ytimg.com/vi/${entry.videoId}/hqdefault.jpg`
-            : undefined,
+          thumbnail,
           stills,
         };
       }),
@@ -410,9 +424,20 @@ async function apiStreams(
 }
 
 /**
+ * ¿Este HTML de YouTube corresponde a una transmisión al aire AHORA? Los
+ * programados/premieres traen "isUpcoming":true; los vivos reales marcan
+ * "isLiveNow":true (player) o "isLive":true (microformat) — según la variante
+ * de página que sirva YouTube aparece uno u otro, así que aceptamos ambos.
+ */
+function looksLiveNow(html: string): boolean {
+  if (html.includes('"isUpcoming":true')) return false;
+  return html.includes('"isLiveNow":true') || html.includes('"isLive":true');
+}
+
+/**
  * Detecta si el canal está transmitiendo en vivo AHORA, sin API key: la ruta
- * pública /live del canal apunta su canonical al watch del vivo y marca
- * "isLiveNow":true solo mientras está al aire. Cache de 5 minutos.
+ * pública /live del canal apunta su canonical al watch del vivo solo mientras
+ * hay transmisión (o una programada). Cache de 2 minutos.
  */
 export async function getLiveVideoId(): Promise<string | null> {
   const channelId = process.env.YOUTUBE_CHANNEL_ID || DEFAULT_CHANNEL_ID;
@@ -421,12 +446,8 @@ export async function getLiveVideoId(): Promise<string | null> {
     const res = await fetch(
       `https://www.youtube.com/channel/${channelId}/live`,
       {
-        headers: {
-          "user-agent":
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36",
-          "accept-language": "es",
-        },
-        next: { revalidate: 300 },
+        headers: WATCH_HEADERS,
+        next: { revalidate: 120 },
       },
     );
     if (!res.ok) return null;
@@ -436,11 +457,17 @@ export async function getLiveVideoId(): Promise<string | null> {
       /rel="canonical" href="https:\/\/www\.youtube\.com\/watch\?v=([\w-]{6,})"/,
     )?.[1];
     if (!videoId) return null;
-    // El canonical también apunta al watch en premieres/programados: solo es
-    // vivo de verdad si el player lo marca al aire.
-    if (!html.includes('"isLiveNow":true')) return null;
 
-    return videoId;
+    if (looksLiveNow(html)) return videoId;
+
+    // La página del canal a veces no trae los marcadores del player: segundo
+    // intento contra la página del video en sí antes de darlo por no-vivo.
+    const watch = await fetch(`https://www.youtube.com/watch?v=${videoId}`, {
+      headers: WATCH_HEADERS,
+      next: { revalidate: 120 },
+    });
+    if (!watch.ok) return null;
+    return looksLiveNow(await watch.text()) ? videoId : null;
   } catch {
     return null;
   }

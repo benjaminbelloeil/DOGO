@@ -68,7 +68,7 @@ export const shows: Show[] = [
     ],
     youtube: "https://www.youtube.com/@dogostreaming",
     instagram: "https://www.instagram.com/dogostreaming",
-    tiktok: "https://www.tiktok.com/@dogostreaming",
+    tiktok: "https://www.tiktok.com/@dogo.streaming",
     // El WhatsApp de DOGO Streaming para info del programa y de la audiencia.
     whatsapp: `https://wa.me/5493364009374?text=${encodeURIComponent(
       "¡Hola DOGO! 👋 Quiero info sobre Ya lo Sabía.",

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { RevealGroup, RevealItem } from "./reveal";
+import { useVideoPreview } from "@/lib/use-video-preview";
 import type { Still, Stream } from "@/lib/youtube";
 
 const CHANNEL_URL = "https://www.youtube.com/@dogostreaming";
@@ -52,11 +53,12 @@ function VideoStills({
   active: boolean;
 }) {
   const reduce = useReducedMotion();
-  const stills: Still[] = stream.stills.length
-    ? stream.stills
-    : stream.thumbnail
-      ? [{ src: stream.thumbnail }]
-      : [];
+  // stills[0] ya viene elegido como el mejor momento real del stream. La
+  // miniatura oficial del canal NO se usa acá a pantalla completa: para
+  // videos recién subidos suele traer franjas negras pegadas en el archivo
+  // (parte del diseño de la tarjeta, no un recorte de CSS) — se ve mejor el
+  // placeholder de marca de abajo mientras no haya un fotograma real.
+  const stills = stream.stills;
   const [frame, setFrame] = useState(0);
 
   useEffect(() => {
@@ -76,7 +78,7 @@ function VideoStills({
   // el tinte uva del programa, como en los paneles de Programas.
   if (!stills.length) {
     return (
-      <span className="flex size-full items-center justify-center bg-grape/[0.06]">
+      <span className="flex size-full items-center justify-center bg-white">
         <Image
           src="/shows/ya-lo-sabia.png"
           alt={stream.title}
@@ -151,43 +153,36 @@ function videoIdFrom(url: string): string | null {
  * carga (y en táctiles, donde no hay hover) quedan los fotogramas.
  */
 function FeaturedPoster({ stream }: { stream: Stream }) {
-  const [hovered, setHovered] = useState(false);
-  const [playerReady, setPlayerReady] = useState(false);
-  const reduce = useReducedMotion();
   const videoId = videoIdFrom(stream.url);
-  const preview = hovered && !reduce && videoId;
+  const { active, ready, src, onMouseEnter, onMouseLeave, onIframeLoad } =
+    useVideoPreview(videoId);
 
   return (
     <a
       href={stream.url}
       target="_blank"
       rel="noopener noreferrer"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => {
-        setHovered(false);
-        setPlayerReady(false);
-      }}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       className="group relative block h-full overflow-hidden rounded-3xl bg-neutral-900"
     >
       <div className="relative aspect-video h-full w-full overflow-hidden">
         <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.03]">
-          <VideoStills stream={stream} active={hovered && !playerReady} />
+          <VideoStills stream={stream} active={active && !ready} />
         </div>
-        {preview && (
+        {src && (
           <iframe
-            // Los vivos arrancan con minutos de placa de espera: el preview
-            // entra a los 10 minutos, ya con el programa andando.
-            src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&start=600&playsinline=1&rel=0&iv_load_policy=3`}
+            src={src}
             title=""
             aria-hidden
             tabIndex={-1}
             allow="autoplay; encrypted-media"
-            onLoad={() => setPlayerReady(true)}
+            onLoad={onIframeLoad}
             // Más alto que la tarjeta y centrado: el video 16:9 llena justo
             // el área visible y el chrome del player (título, logo de
             // YouTube, "más videos") queda en las franjas recortadas.
             className={`pointer-events-none absolute left-0 top-[-20%] h-[140%] w-full border-0 transition-opacity duration-500 ${
-              playerReady ? "opacity-100" : "opacity-0"
+              ready ? "opacity-100" : "opacity-0"
             }`}
           />
         )}

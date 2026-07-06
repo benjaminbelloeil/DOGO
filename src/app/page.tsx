@@ -40,7 +40,7 @@ const jsonLd = {
   sameAs: [
     "https://www.youtube.com/@dogostreaming",
     "https://www.instagram.com/dogostreaming",
-    "https://www.tiktok.com/@dogostreaming",
+    "https://www.tiktok.com/@dogo.streaming",
     "https://www.twitch.tv/dogostreaming",
   ],
 };
