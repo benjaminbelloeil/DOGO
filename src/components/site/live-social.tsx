@@ -3,7 +3,7 @@ import { ArrowUpRight, Clock, Radio } from "lucide-react";
 import { Container, SectionIntro, SectionTitle } from "./primitives";
 import { LiveFrame } from "./live-frame";
 import { Reveal } from "./reveal";
-import { getLiveVideoId, getRecentStreams } from "@/lib/youtube";
+import { getChannelId, getLiveVideoId, getRecentStreams } from "@/lib/youtube";
 
 // TODO: reemplazar por las URLs reales de DOGO.
 const LIVE_URL = "https://www.youtube.com/@dogostreaming/live";
@@ -50,6 +50,7 @@ export async function LiveSocial() {
           <Reveal from="left" className="order-2 lg:order-1">
             <LiveFrame
               liveVideoId={liveVideoId}
+              channelId={getChannelId()}
               latestUrl={latest?.url}
               latestTitle={latest?.title}
               latestStill={latest?.stills[0]}

@@ -28,7 +28,14 @@ function isLiveNow(date = new Date()): boolean {
   return hour >= 10 && hour < 12;
 }
 
-export function LiveBadge({ className }: { className?: string }) {
+export function LiveBadge({
+  className,
+  live: liveOverride,
+}: {
+  className?: string;
+  /** Vivo CONFIRMADO (detección real de YouTube): pisa el cálculo por reloj. */
+  live?: boolean;
+}) {
   // Pre-mount we render the off state, so the server-rendered (static) HTML and
   // the first client render match. After mount we compute the real status and
   // re-check every 30s so the pill flips on/off as the window opens and closes.
@@ -43,7 +50,7 @@ export function LiveBadge({ className }: { className?: string }) {
     return () => clearInterval(id);
   }, []);
 
-  const isLive = ready && live;
+  const isLive = liveOverride ?? (ready && live);
 
   return (
     <span

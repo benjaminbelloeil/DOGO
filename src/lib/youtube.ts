@@ -88,6 +88,11 @@ const REVALIDATE_SECONDS = 60 * 60;
 // Permite usar el feed RSS público sin configurar ninguna API key.
 const DEFAULT_CHANNEL_ID = "UCOtrGrSqgFqYP8XgVnq2suQ";
 
+/** El id de canal a usar en todos los caminos sin API key. */
+export function getChannelId(): string {
+  return process.env.YOUTUBE_CHANNEL_ID || DEFAULT_CHANNEL_ID;
+}
+
 type YtThumbnails = Record<string, { url: string; width: number } | undefined>;
 
 async function ytFetch<T>(path: string): Promise<T | null> {
@@ -308,7 +313,7 @@ function formatPublished(iso: string): string {
  * fecha de publicación en su lugar).
  */
 async function rssStreams(limit: number): Promise<Stream[] | null> {
-  const channelId = process.env.YOUTUBE_CHANNEL_ID || DEFAULT_CHANNEL_ID;
+  const channelId = getChannelId();
 
   try {
     const res = await fetch(
@@ -440,7 +445,7 @@ function looksLiveNow(html: string): boolean {
  * hay transmisión (o una programada). Cache de 2 minutos.
  */
 export async function getLiveVideoId(): Promise<string | null> {
-  const channelId = process.env.YOUTUBE_CHANNEL_ID || DEFAULT_CHANNEL_ID;
+  const channelId = getChannelId();
 
   try {
     const res = await fetch(
