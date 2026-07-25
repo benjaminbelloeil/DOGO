@@ -10,7 +10,7 @@ export const VIDEO_PREVIEW_FADE_MS = 500;
 // buffer). Medido a ojo: recién arranca a pintar contenido real bastante
 // después de eso. Este colchón le da tiempo de sobra antes de empezar el
 // crossfade, así el fundido revela video de verdad y no un instante negro.
-const REVEAL_BUFFER_MS = 1200;
+export const REVEAL_BUFFER_MS = 1200;
 
 /**
  * Maneja el timing de un preview de YouTube en hover: entra suave (con

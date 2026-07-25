@@ -1,11 +1,11 @@
 "use client";
 
-import { useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { Volume2, VolumeX } from "lucide-react";
 import { LiveBadge } from "./live-badge";
 import { useLiveProbe } from "@/lib/use-live-probe";
-import { useVideoPreview } from "@/lib/use-video-preview";
+import { REVEAL_BUFFER_MS, useVideoPreview } from "@/lib/use-video-preview";
 import type { Still } from "@/lib/youtube";
 
 function videoIdFrom(url: string): string | null {
@@ -66,6 +66,23 @@ export function LiveFrame({
   const { ready, src, onMouseEnter, onMouseLeave, onIframeLoad } =
     useVideoPreview(previewVideoId);
 
+  // El embed del vivo también tarda un momento en empezar a pintar video de
+  // verdad: recién montado, YouTube alcanza a mostrar de refilón su propio
+  // título/controles antes de que el autoplay arranque. El fotograma de
+  // reposo (más abajo) tapa ese instante y el embed recién se revela — con
+  // el mismo colchón que usa el preview en hover — una vez que ya está
+  // reproduciendo, así ese destello nunca llega a verse.
+  const [liveReady, setLiveReady] = useState(false);
+  const liveReadyTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => {
+    return () => {
+      if (liveReadyTimer.current) clearTimeout(liveReadyTimer.current);
+    };
+  }, []);
+  const onLiveIframeLoad = () => {
+    liveReadyTimer.current = setTimeout(() => setLiveReady(true), REVEAL_BUFFER_MS);
+  };
+
   // Sonido del vivo: arranca muteado (los navegadores no permiten autoplay
   // con audio) y se activa/silencia por postMessage, sin recargar el player.
   const [muted, setMuted] = useState(true);
@@ -98,93 +115,100 @@ export function LiveFrame({
       ? `https://www.youtube.com/watch?v=${activeLiveId}`
       : frameUrl;
 
+  // Si hay video de verdad pintando la tarjeta ahora mismo (vivo real ya
+  // revelado, o preview en hover ya revelado) — de lo contrario se ve el
+  // fotograma de reposo (fijo o logo), tape lo que tape por debajo.
+  const videoVisible = (activeLiveId && liveReady) || (!activeLiveId && ready);
+
   return (
     <div
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       className="group relative block aspect-video overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-900 shadow-xl shadow-neutral-900/10"
     >
-      {/* El reposo del último stream: queda debajo del vivo cuando el probe
-          del cliente lo confirma tarde, así el pase es un cover y no un corte
-          a negro. Con vivo confirmado desde el servidor, ni se monta. */}
-      {!liveVideoId && (
-        <>
-          <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-[1.03]">
-            {latestStill ? (
-              // Un fotograma real del último stream. Si es una lámina de
-              // storyboard, se recorta a la celda (x, y) — igual que en
-              // Novedades — para no mostrar la grilla entera.
-              <span className="absolute inset-0 overflow-hidden">
-                {latestStill.sprite ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={latestStill.src}
-                    alt={`Último stream de DOGO: ${latestTitle}`}
-                    className="absolute h-auto max-w-none"
-                    style={{
-                      width: `${latestStill.sprite.cols * 100}%`,
-                      left: `${-latestStill.sprite.x * 100}%`,
-                      top: `${-latestStill.sprite.y * 100}%`,
-                    }}
-                  />
-                ) : (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={latestStill.src}
-                    alt={`Último stream de DOGO: ${latestTitle}`}
-                    className="absolute inset-0 size-full object-cover"
-                  />
-                )}
-              </span>
+      {/* El reposo del último stream: SIEMPRE montado por debajo — tapa el
+          arranque del embed (vivo real o preview en hover) hasta que el
+          video empieza a pintar de verdad, para que nunca se vea el destello
+          de controles/título de YouTube al cargar. */}
+      <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-[1.03]">
+        {latestStill ? (
+          // Un fotograma real del último stream. Si es una lámina de
+          // storyboard, se recorta a la celda (x, y) — igual que en
+          // Novedades — para no mostrar la grilla entera.
+          <span className="absolute inset-0 overflow-hidden">
+            {latestStill.sprite ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={latestStill.src}
+                alt={`Último stream de DOGO: ${latestTitle}`}
+                className="absolute h-auto max-w-none"
+                style={{
+                  width: `${latestStill.sprite.cols * 100}%`,
+                  left: `${-latestStill.sprite.x * 100}%`,
+                  top: `${-latestStill.sprite.y * 100}%`,
+                }}
+              />
             ) : (
-              // Sin fotograma real todavía (video recién subido): el logo
-              // sobre blanco, como en Novedades y en los paneles de
-              // Programas.
-              <span className="absolute inset-0 flex items-center justify-center bg-white">
-                <Image
-                  src="/shows/ya-lo-sabia.png"
-                  alt=""
-                  width={420}
-                  height={420}
-                  className="h-[35%] w-auto object-contain drop-shadow-sm"
-                />
-              </span>
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={latestStill.src}
+                alt={`Último stream de DOGO: ${latestTitle}`}
+                className="absolute inset-0 size-full object-cover"
+              />
             )}
-          </div>
-          {src && !activeLiveId && (
-            <iframe
-              src={src}
-              title=""
-              aria-hidden
-              tabIndex={-1}
-              allow="autoplay; encrypted-media"
-              onLoad={onIframeLoad}
-              // Más alto que el frame y centrado: el video 16:9 llena justo
-              // el área visible y el chrome del player (título, logo de
-              // YouTube, "más videos") queda en las franjas recortadas.
-              className={`pointer-events-none absolute left-0 top-[-20%] h-[140%] w-full border-0 transition-opacity duration-500 ${
-                ready ? "opacity-100" : "opacity-0"
-              }`}
+          </span>
+        ) : (
+          // Sin fotograma real todavía (video recién subido): el logo
+          // sobre blanco, como en Novedades y en los paneles de
+          // Programas.
+          <span className="absolute inset-0 flex items-center justify-center bg-white">
+            <Image
+              src="/shows/ya-lo-sabia.png"
+              alt=""
+              width={420}
+              height={420}
+              className="h-[35%] w-auto object-contain drop-shadow-sm"
             />
-          )}
-        </>
+          </span>
+        )}
+      </div>
+
+      {src && !activeLiveId && (
+        <iframe
+          src={src}
+          title=""
+          aria-hidden
+          tabIndex={-1}
+          allow="autoplay; encrypted-media"
+          onLoad={onIframeLoad}
+          // Más alto que el frame y centrado: el video 16:9 llena justo
+          // el área visible y el chrome del player (título, logo de
+          // YouTube, "más videos") queda en las franjas recortadas.
+          className={`pointer-events-none absolute left-0 top-[-20%] h-[140%] w-full border-0 transition-opacity duration-500 ${
+            ready ? "opacity-100" : "opacity-0"
+          }`}
+        />
       )}
 
       {activeLiveId && origin && (
         // Vista previa real del vivo: sin controles; el click en la tarjeta
-        // sigue llevando al canal (el iframe no captura clicks).
+        // sigue llevando al canal (el iframe no captura clicks). Queda
+        // invisible (el reposo de arriba lo tapa) hasta que ya está andando.
         <iframe
           ref={liveIframe}
           src={`https://www.youtube.com/embed/${activeLiveId}?autoplay=1&mute=1&playsinline=1&controls=0&rel=0&enablejsapi=1&origin=${encodeURIComponent(origin)}`}
           title="Transmisión en vivo de DOGO Streaming"
           allow="autoplay; encrypted-media; picture-in-picture"
-          className="pointer-events-none absolute inset-0 size-full"
+          onLoad={onLiveIframeLoad}
+          className={`pointer-events-none absolute inset-0 size-full transition-opacity duration-500 ${
+            liveReady ? "opacity-100" : "opacity-0"
+          }`}
         />
       )}
 
       <div
         className={
-          activeLiveId || ready
+          videoVisible
             ? "pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/60 to-transparent"
             : "pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-black/30"
         }

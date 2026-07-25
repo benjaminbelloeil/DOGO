@@ -223,6 +223,14 @@ async function getStoryboardStills(videoId: string): Promise<Still[]> {
     const fields = levels[levelIndex]?.split("#");
     if (!fields || fields.length !== 8) return [];
 
+    // Los reels/Shorts traen celdas VERTICALES (alto > ancho): en las
+    // tarjetas 16:9 el recorte del sprite los muestra con un zoom enorme y
+    // raro. Mejor sin storyboard: quedan las capturas fijas, que YouTube ya
+    // genera con el video centrado.
+    const cellW = Number(fields[0]);
+    const cellH = Number(fields[1]);
+    if (cellH > cellW) return [];
+
     const total = Number(fields[2]);
     const cols = Number(fields[3]);
     const rows = Number(fields[4]);

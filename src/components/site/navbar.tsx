@@ -27,10 +27,8 @@ const links = [
   { label: "FAQ", href: "/#faq" },
 ];
 
-// WhatsApp para pauta publicitaria (anunciar en los programas de DOGO).
-const ADS_URL = `https://wa.me/5493364403310?text=${encodeURIComponent(
-  "¡Hola DOGO! 👋 Quiero info para anunciar mi marca en sus programas.",
-)}`;
+// La página de pauta publicitaria (anunciar en los programas de DOGO).
+const ADS_URL = "/anuncia";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -259,8 +257,6 @@ export function Navbar({ solid = false }: { solid?: boolean }) {
                 <div className="mt-2 flex gap-2 px-1">
                   <a
                     href={ADS_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
                     onClick={() => setOpen(false)}
                     className="inline-flex h-9 flex-1 items-center justify-center rounded-full border border-neutral-300 bg-white px-5 text-sm font-semibold text-neutral-900 transition-all hover:bg-neutral-50 active:scale-95"
                   >

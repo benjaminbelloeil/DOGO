@@ -1,14 +1,7 @@
-import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight, Mic, Radio, Share2, Snowflake, Video, Wifi } from "lucide-react";
 import { Container, SectionIntro, SectionLabel, SectionTitle } from "./primitives";
 import { Reveal, RevealHeader, RevealItem } from "./reveal";
-
-const VISIT_URL = `https://wa.me/5493364403310?text=${encodeURIComponent(
-  "¡Hola DOGO! 👋 Quiero agendar una visita al estudio. ¿Cuándo puedo pasar?",
-)}`;
-const ADS_URL = `https://wa.me/5493364403310?text=${encodeURIComponent(
-  "¡Hola DOGO! 👋 Quiero info para anunciar mi marca en sus programas.",
-)}`;
 
 const features = [
   {
@@ -126,51 +119,33 @@ export function Studio() {
               </div>
             </div>
 
-            {/* Fila de acciones: los dos botones juntos, mismo tamaño. */}
+            {/* Fila de acciones: cada botón lleva a su propia página. */}
             <div className="mt-8 flex flex-col gap-4 border-t border-neutral-200 pt-7 sm:mt-10 lg:flex-row lg:items-center lg:justify-between">
               <p className="max-w-sm text-sm leading-relaxed text-neutral-500">
-                Escribinos por WhatsApp y coordinamos día, horario o propuesta
-                de pauta.
+                Conocé el estudio por dentro o mirá cómo funciona la pauta —
+                cada uno tiene su página.
               </p>
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                <a
-                  href={VISIT_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  href="/estudio"
                   className={`${ctaClass} bg-grape hover:bg-grape-deep hover:shadow-lg hover:shadow-grape/30`}
                 >
-                  <Image
-                    src="/icons/whatsapp.png"
-                    alt=""
-                    width={40}
-                    height={40}
-                    className="size-5"
-                  />
                   Agendar el estudio
                   <ArrowUpRight
                     className="size-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                     strokeWidth={2}
                   />
-                </a>
-                <a
-                  href={ADS_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`${ctaClass} bg-neutral-900 hover:bg-neutral-800 hover:shadow-lg hover:shadow-neutral-900/20`}
+                </Link>
+                <Link
+                  href="/anuncia"
+                  className={`${ctaClass} bg-gold hover:bg-gold-deep hover:shadow-lg hover:shadow-gold/30`}
                 >
-                  <Image
-                    src="/icons/whatsapp.png"
-                    alt=""
-                    width={40}
-                    height={40}
-                    className="size-5"
-                  />
                   Anunciá con DOGO
                   <ArrowUpRight
                     className="size-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                     strokeWidth={2}
                   />
-                </a>
+                </Link>
               </div>
             </div>
           </div>
