@@ -72,11 +72,11 @@ export default function Home() {
       <main className="bg-neutral-100 pb-12">
         <Hero />
         <LiveSocial />
-        <HowItWorks />
-        <Features />
-        <Testimonials />
-        <Blogs />
         <Studio />
+        <Blogs />
+        <Testimonials />
+        <Features />
+        <HowItWorks />
         <Cta />
         <Faq />
       </main>

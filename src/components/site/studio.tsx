@@ -1,29 +1,21 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Mic, Radio, Share2, Snowflake, Video, Wifi } from "lucide-react";
+import { ArrowUpRight, Clapperboard, Mic, Radio, RadioTower, Share2 } from "lucide-react";
 import { Container, SectionIntro, SectionLabel, SectionTitle } from "./primitives";
 import { Reveal, RevealHeader, RevealItem } from "./reveal";
 
+const BOOK_URL = `https://wa.me/5493364403310?text=${encodeURIComponent(
+  "¡Hola DOGO! 👋 Quiero reservar el estudio para grabar. ¿Coordinamos una visita?",
+)}`;
+const ADS_URL = `https://wa.me/5493364403310?text=${encodeURIComponent(
+  "¡Hola DOGO! 👋 Quiero info para anunciar mi marca en sus programas.",
+)}`;
+
+/* Para qué lo usan, en versión corta — el mismo trío que /estudio. */
 const features = [
-  {
-    icon: Mic,
-    title: "Audio profesional",
-    desc: "Micrófonos y consola listos para grabar.",
-  },
-  {
-    icon: Video,
-    title: "Listo para streaming",
-    desc: "Cámaras y luces para transmitir en vivo.",
-  },
-  {
-    icon: Wifi,
-    title: "Internet veloz",
-    desc: "Conexión estable para vivos sin cortes.",
-  },
-  {
-    icon: Snowflake,
-    title: "Espacio cómodo",
-    desc: "Estudio climatizado y silencioso.",
-  },
+  { icon: Mic, title: "Tu podcast" },
+  { icon: RadioTower, title: "Programa en vivo" },
+  { icon: Clapperboard, title: "Contenido de marca" },
 ];
 
 const adPerks = [
@@ -32,9 +24,45 @@ const adPerks = [
   { icon: Share2, label: "Contenido en redes" },
 ];
 
-/** Los dos botones de acción comparten exactamente el mismo estilo. */
-const ctaClass =
-  "group inline-flex h-13 items-center justify-center gap-2.5 whitespace-nowrap rounded-full px-6 text-sm font-semibold text-white shadow-sm transition-all duration-300 active:scale-[0.98] sm:h-14 sm:px-7 sm:text-base";
+/** El fondo empapelado: la palabra repetida en filas, como en los billboards de /estudio y /anuncia.
+ *  El bloque rotado tiene que sobrar por mucho más que el ángulo de rotación
+ *  para no dejar cuñas sin cubrir en las esquinas — por eso el inset es tan
+ *  grande y las filas van pegadas. */
+function DuoWallpaper({ word }: { word: string }) {
+  return (
+    <div aria-hidden className="duo-wallpaper pointer-events-none absolute inset-0 overflow-hidden">
+      <div className="absolute -inset-32 flex -rotate-6 flex-col items-center justify-center gap-1.5">
+        {Array.from({ length: 14 }, (_, row) => (
+          <p
+            key={row}
+            className="whitespace-nowrap font-display text-4xl font-bold uppercase leading-none tracking-tight text-white/[0.08]"
+          >
+            {`${word} · `.repeat(14)}
+          </p>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/** Ícono grande, en reposo y en el estado angosto (`duo-mini`) comparten el mismo tratamiento. */
+function DuoBadge({
+  icon: Icon,
+  size = "size-14",
+  iconSize = "size-6",
+}: {
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  size?: string;
+  iconSize?: string;
+}) {
+  return (
+    <span
+      className={`flex ${size} shrink-0 items-center justify-center rounded-2xl bg-white/15 ring-1 ring-white/25 backdrop-blur-sm`}
+    >
+      <Icon className={`${iconSize} text-white`} strokeWidth={1.75} />
+    </span>
+  );
+}
 
 export function Studio() {
   return (
@@ -42,7 +70,7 @@ export function Studio() {
       <Container>
         <RevealHeader>
           <RevealItem>
-            <SectionLabel>Trabajá con DOGO</SectionLabel>
+            <SectionLabel>Alquilá tu espacio o anunciá tu marca</SectionLabel>
           </RevealItem>
           <RevealItem>
             <SectionTitle className="mt-4 max-w-2xl">
@@ -57,98 +85,192 @@ export function Studio() {
           </RevealItem>
         </RevealHeader>
 
-        {/* Díptico "trabajá con DOGO": a la izquierda el estudio como lista
-            editorial; a la derecha la pauta, donde la columna entera ES el
-            aviso vacío. Las dos acciones van juntas en la fila de abajo. */}
+        {/* Dos tarjetas, no un panel dividido: cada una es su propia oferta y
+            su propio link. En mouse, la que está bajo el cursor se expande y
+            empuja a la otra a un carril angosto con solo su ícono (CSS puro,
+            sin JS); en touch no hay hover, así que el contenido completo
+            queda siempre visible y las tarjetas se apilan. */}
         <Reveal className="mt-10">
-          <div className="rounded-[2rem] border border-neutral-200 bg-white p-7 sm:p-10 md:p-12">
-            <div className="grid gap-10 md:grid-cols-2 lg:gap-14">
-              {/* Columna 1 · Reservá el estudio */}
-              <div className="divide-y divide-neutral-200">
-                {features.map(({ icon: Icon, title, desc }, i) => (
-                  <div
-                    key={title}
-                    className={`group/row flex items-center gap-4 py-4 ${i === 0 ? "pt-0" : ""}`}
-                  >
-                    <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-grape/[0.07] text-grape transition-colors duration-300 group-hover/row:bg-grape group-hover/row:text-white">
-                      <Icon className="size-5" strokeWidth={1.75} />
+          <div className="duo-row flex flex-col gap-5 md:h-[420px] md:flex-row">
+            <div className="duo-card duo-card--grape relative flex flex-col justify-end overflow-hidden rounded-[1.75rem] p-7 sm:p-8">
+              <Link
+                href="/estudio"
+                aria-label="Ver el estudio de DOGO"
+                className="absolute inset-0 rounded-[1.75rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white/70"
+              />
+              <DuoWallpaper word="AL AIRE" />
+
+              <div className="duo-content pointer-events-none relative z-[3]">
+                <DuoBadge icon={Mic} />
+                <p className="mt-4 font-display text-[11px] font-semibold uppercase tracking-[0.18em] text-gold">
+                  El estudio de DOGO
+                </p>
+                <h3 className="mt-1.5 font-display text-2xl font-bold leading-[1.05] tracking-tight text-white sm:text-[1.75rem]">
+                  Alquilá tu espacio
+                </h3>
+                <p className="mt-2 max-w-[22rem] text-sm leading-relaxed text-white/80">
+                  Grabá tu podcast, transmití en vivo o producí tu contenido.
+                </p>
+
+                <div className="duo-perks mt-5 flex flex-wrap gap-2">
+                  {features.map(({ icon: Icon, title }) => (
+                    <span
+                      key={title}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/15 px-3 py-1.5 text-xs font-semibold text-white"
+                    >
+                      <Icon className="size-3.5" strokeWidth={2} />
+                      {title}
                     </span>
-                    <div className="min-w-0">
-                      <h3 className="font-display text-base font-semibold leading-tight text-neutral-900">
-                        {title}
-                      </h3>
-                      <p className="mt-0.5 text-sm leading-snug text-neutral-500">
-                        {desc}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
+
+                <div className="duo-cta mt-5 flex items-center justify-between gap-3">
+                  <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-white">
+                    Agendar el estudio
+                    <ArrowUpRight className="size-4" strokeWidth={2.5} />
+                  </span>
+                  <a
+                    href={BOOK_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Escribinos por WhatsApp para agendar el estudio"
+                    className="pointer-events-auto relative z-[1] flex size-12 shrink-0 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/25 backdrop-blur-sm transition-all duration-300 hover:bg-white/25 hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                  >
+                    <Image src="/icons/whatsapp.png" alt="" width={40} height={40} className="size-6" />
+                  </a>
+                </div>
               </div>
 
-              {/* Columna 2 · Anunciantes: la columna entera es el aviso vacío */}
-              <div
-                id="anunciantes"
-                className="group relative flex flex-col items-center justify-center rounded-[1.5rem] border-2 border-dashed border-neutral-300 bg-neutral-50/80 px-7 py-10 text-center transition-colors duration-300 hover:border-grape/40 sm:px-10"
-              >
-                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 -rotate-2 whitespace-nowrap rounded-full bg-gold px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-ink shadow-sm transition-transform duration-300 group-hover:rotate-0">
+              <span aria-hidden className="duo-mini">
+                <DuoBadge icon={Mic} size="size-16" iconSize="size-7" />
+              </span>
+            </div>
+
+            <div className="duo-card duo-card--gold relative flex flex-col justify-end overflow-hidden rounded-[1.75rem] p-7 sm:p-8">
+              <Link
+                href="/anuncia"
+                aria-label="Ver cómo anunciar con DOGO"
+                className="absolute inset-0 rounded-[1.75rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white/70"
+              />
+              <span aria-hidden className="duo-scrim" />
+              <DuoWallpaper word="TU MARCA" />
+
+              <div className="duo-content pointer-events-none relative z-[3]">
+                <DuoBadge icon={Radio} />
+                <p className="mt-4 font-display text-[11px] font-semibold uppercase tracking-[0.18em] text-gold">
                   Espacio publicitario
-                </span>
-
-                <p className="font-display text-3xl font-bold leading-[1.05] tracking-tight text-neutral-300 sm:text-4xl">
-                  Este espacio
-                  <br />
-                  puede ser <span className="text-grape">tuyo</span>
                 </p>
-                <p className="mx-auto mt-4 max-w-sm text-sm leading-relaxed text-neutral-500">
-                  De lunes a viernes la ciudad escucha DOGO por FM 99.9 y por
-                  streaming. Tu logo, tu mensaje y tu marca sonando todas las
-                  mañanas.
+                <h3 className="mt-1.5 font-display text-2xl font-bold leading-[1.05] tracking-tight text-white sm:text-[1.75rem]">
+                  Anunciá tu marca
+                </h3>
+                <p className="mt-2 max-w-[22rem] text-sm leading-relaxed text-white/80">
+                  Poné tu marca a sonar en la radio de San Nicolás.
                 </p>
 
-                <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
+                <div className="duo-perks mt-5 flex flex-wrap gap-2">
                   {adPerks.map(({ icon: Icon, label }) => (
                     <span
                       key={label}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-neutral-200 bg-white px-3.5 py-1.5 text-xs font-semibold text-neutral-700"
+                      className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/15 px-3 py-1.5 text-xs font-semibold text-white"
                     >
-                      <Icon className="size-3.5 text-grape" strokeWidth={2} />
+                      <Icon className="size-3.5" strokeWidth={2} />
                       {label}
                     </span>
                   ))}
                 </div>
-              </div>
-            </div>
 
-            {/* Fila de acciones: cada botón lleva a su propia página. */}
-            <div className="mt-8 flex flex-col gap-4 border-t border-neutral-200 pt-7 sm:mt-10 lg:flex-row lg:items-center lg:justify-between">
-              <p className="max-w-sm text-sm leading-relaxed text-neutral-500">
-                Conocé el estudio por dentro o mirá cómo funciona la pauta —
-                cada uno tiene su página.
-              </p>
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                <Link
-                  href="/estudio"
-                  className={`${ctaClass} bg-grape hover:bg-grape-deep hover:shadow-lg hover:shadow-grape/30`}
-                >
-                  Agendar el estudio
-                  <ArrowUpRight
-                    className="size-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                    strokeWidth={2}
-                  />
-                </Link>
-                <Link
-                  href="/anuncia"
-                  className={`${ctaClass} bg-gold hover:bg-gold-deep hover:shadow-lg hover:shadow-gold/30`}
-                >
-                  Anunciá con DOGO
-                  <ArrowUpRight
-                    className="size-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                    strokeWidth={2}
-                  />
-                </Link>
+                <div className="duo-cta mt-5 flex items-center justify-between gap-3">
+                  <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-white">
+                    Anunciá con DOGO
+                    <ArrowUpRight className="size-4" strokeWidth={2.5} />
+                  </span>
+                  <a
+                    href={ADS_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Escribinos por WhatsApp para anunciar con DOGO"
+                    className="pointer-events-auto relative z-[1] flex size-12 shrink-0 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/25 backdrop-blur-sm transition-all duration-300 hover:bg-white/25 hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                  >
+                    <Image src="/icons/whatsapp.png" alt="" width={40} height={40} className="size-6" />
+                  </a>
+                </div>
               </div>
+
+              <span aria-hidden className="duo-mini">
+                <DuoBadge icon={Radio} size="size-16" iconSize="size-7" />
+              </span>
             </div>
           </div>
+
+          {/* El empuje horizontal (:has() de un hermano en :hover) no tiene
+              equivalente en utilidades de Tailwind — vive acá, aislado, y solo
+              corre en dispositivos con mouse real. */}
+          <style
+            dangerouslySetInnerHTML={{
+              __html: `
+                .duo-card--grape { background: linear-gradient(160deg, #501f80 0%, #3a1660 100%); }
+                .duo-card--gold { background: linear-gradient(160deg, #fcb034 0%, #e0951a 100%); }
+
+                .duo-scrim {
+                  position: absolute;
+                  inset: 0;
+                  z-index: 1;
+                  pointer-events: none;
+                  background: linear-gradient(180deg, rgba(36,16,67,0) 30%, rgba(36,16,67,0.55) 70%, rgba(36,16,67,0.85) 100%);
+                }
+
+                .duo-wallpaper { z-index: 1; }
+
+                .duo-mini {
+                  position: absolute;
+                  inset: 0;
+                  z-index: 4;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  opacity: 0;
+                  pointer-events: none;
+                  transition: opacity 0.3s ease;
+                }
+
+                @media (hover: hover) and (pointer: fine) {
+                  .duo-card {
+                    flex: 1 1 0%;
+                    min-width: 0;
+                    transition: flex 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+                  }
+                  .duo-card:hover { flex: 1.7 1 0%; z-index: 2; }
+                  .duo-card--grape:hover { box-shadow: 0 28px 56px -18px rgba(80, 31, 128, 0.45); }
+                  .duo-card--gold:hover { box-shadow: 0 28px 56px -18px rgba(224, 149, 26, 0.5); }
+
+                  .duo-row .duo-card:hover ~ .duo-card,
+                  .duo-row .duo-card:has(~ .duo-card:hover) { flex: 0.62 1 0%; }
+
+                  .duo-perks {
+                    max-height: 0;
+                    opacity: 0;
+                    overflow: hidden;
+                    transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.05s, opacity 0.35s ease 0.12s;
+                  }
+                  .duo-card:hover .duo-perks { max-height: 5rem; opacity: 1; }
+
+                  .duo-content {
+                    transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+                  }
+                  .duo-row .duo-card:hover ~ .duo-card .duo-content,
+                  .duo-row .duo-card:has(~ .duo-card:hover) .duo-content {
+                    opacity: 0;
+                    transform: translateY(6px) scale(0.97);
+                    pointer-events: none;
+                  }
+                  .duo-row .duo-card:hover ~ .duo-card .duo-mini,
+                  .duo-row .duo-card:has(~ .duo-card:hover) .duo-mini {
+                    opacity: 1;
+                  }
+                }
+              `,
+            }}
+          />
         </Reveal>
       </Container>
     </section>

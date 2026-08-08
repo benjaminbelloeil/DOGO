@@ -21,9 +21,9 @@ import { cn } from "@/lib/utils";
 // programas navegan al inicio y aterrizan en la sección.
 const links = [
   { label: "En vivo", href: "/#en-vivo" },
-  { label: "Programas", href: "/#programas" },
-  { label: "Novedades", href: "/#novedades" },
   { label: "Estudio", href: "/#estudio" },
+  { label: "Novedades", href: "/#novedades" },
+  { label: "Programas", href: "/#programas" },
   { label: "FAQ", href: "/#faq" },
 ];
 

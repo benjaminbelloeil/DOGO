@@ -190,7 +190,7 @@ export default function AnunciaPage() {
               <div className="grid divide-neutral-200 rounded-[2rem] border border-neutral-200 bg-white max-md:divide-y md:grid-cols-3 md:divide-x">
                 {alcance.map(({ icon: Icon, title, desc }) => (
                   <div key={title} className="group p-7 sm:p-9">
-                    <span className="flex size-11 items-center justify-center rounded-xl bg-gold/15 text-gold-deep transition-colors duration-300 group-hover:bg-gold group-hover:text-ink">
+                    <span className="flex size-11 items-center justify-center rounded-xl bg-gold/15 text-gold-deep transition-colors duration-300 group-hover:bg-gold group-hover:text-white">
                       <Icon className="size-5" strokeWidth={1.75} />
                     </span>
                     <h3 className="mt-5 font-display text-lg font-semibold text-neutral-900">
@@ -205,43 +205,44 @@ export default function AnunciaPage() {
 
           {/* ── Formatos: la hoja de pauta, en filas editoriales ───────────── */}
           <section id="formatos" className="mt-20 scroll-mt-28">
-            <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
-              <RevealHeader>
-                <RevealItem>
-                  <AdLabel>Formatos</AdLabel>
-                </RevealItem>
-                <RevealItem>
-                  <h2 className="mt-4 font-display text-3xl font-bold leading-[1.05] tracking-tight text-neutral-900 sm:text-4xl">
-                    Elegí cómo quiere sonar tu marca
-                  </h2>
-                </RevealItem>
-                <RevealItem>
-                  <p className="mt-4 max-w-md text-sm leading-relaxed text-neutral-500 sm:text-base">
-                    Los formatos se combinan: una buena pauta suele mezclar
-                    voz, pantalla y redes. Todos entran en la propuesta que
-                    armamos juntos.
-                  </p>
-                </RevealItem>
-              </RevealHeader>
+            <RevealHeader>
+              <RevealItem>
+                <AdLabel>Formatos</AdLabel>
+              </RevealItem>
+              <RevealItem>
+                <h2 className="mt-4 max-w-2xl font-display text-3xl font-bold leading-[1.05] tracking-tight text-neutral-900 sm:text-4xl">
+                  Elegí cómo quiere sonar tu marca
+                </h2>
+              </RevealItem>
+              <RevealItem>
+                <p className="mt-4 max-w-md text-sm leading-relaxed text-neutral-500 sm:text-base">
+                  Los formatos se combinan: una buena pauta suele mezclar
+                  voz, pantalla y redes. Todos entran en la propuesta que
+                  armamos juntos.
+                </p>
+              </RevealItem>
+            </RevealHeader>
 
-              <Reveal delay={0.1}>
-                <ul className="divide-y divide-neutral-200 rounded-[1.5rem] border border-neutral-200 bg-white px-6 sm:px-8">
-                  {formatos.map(({ icon: Icon, title, desc }) => (
-                    <li key={title} className="group/row flex items-center gap-4 py-4 sm:gap-5">
-                      <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-gold/15 text-gold-deep transition-colors duration-300 group-hover/row:bg-gold group-hover/row:text-ink">
-                        <Icon className="size-5" strokeWidth={1.75} />
-                      </span>
-                      <div className="min-w-0">
-                        <h3 className="font-display text-base font-semibold leading-tight text-neutral-900">
-                          {title}
-                        </h3>
-                        <p className="mt-0.5 text-sm leading-snug text-neutral-500">{desc}</p>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </Reveal>
-            </div>
+            <Reveal className="mt-10" delay={0.1}>
+              <ul className="grid grid-cols-1 gap-x-10 rounded-[1.5rem] border border-neutral-200 bg-white px-6 sm:grid-cols-2 sm:px-8">
+                {formatos.map(({ icon: Icon, title, desc }) => (
+                  <li
+                    key={title}
+                    className="group/row flex items-center gap-4 border-neutral-200 py-4 [&:not(:first-child)]:border-t sm:gap-5 sm:[&:nth-child(-n+2)]:border-t-0 sm:[&:nth-child(even)]:border-l sm:[&:nth-child(even)]:pl-6 sm:[&:nth-child(odd)]:pr-6"
+                  >
+                    <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-gold/15 text-gold-deep transition-colors duration-300 group-hover/row:bg-gold group-hover/row:text-white">
+                      <Icon className="size-5" strokeWidth={1.75} />
+                    </span>
+                    <div className="min-w-0">
+                      <h3 className="font-display text-base font-semibold leading-tight text-neutral-900">
+                        {title}
+                      </h3>
+                      <p className="mt-0.5 text-sm leading-snug text-neutral-500">{desc}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
           </section>
 
           {/* ── Cómo es anunciar: línea de tiempo punteada, no tarjetas ────── */}
@@ -325,22 +326,22 @@ export default function AnunciaPage() {
             <Reveal className="mt-5" delay={0.1}>
               <Link
                 href="/estudio"
-                className="group flex flex-col gap-4 rounded-[1.5rem] border border-neutral-200 bg-white p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-neutral-300 hover:shadow-xl hover:shadow-neutral-200/70 sm:flex-row sm:items-center sm:justify-between sm:p-7"
+                className="group flex flex-col gap-4 rounded-[1.5rem] bg-gradient-to-br from-grape to-grape-deep p-6 shadow-[0_6px_0_0_#2d1150] transition-all duration-150 hover:translate-y-[2px] hover:shadow-[0_4px_0_0_#2d1150] active:translate-y-[6px] active:shadow-none sm:flex-row sm:items-center sm:justify-between sm:p-7"
               >
                 <div className="flex items-center gap-4">
-                  <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-grape/[0.07] text-grape">
+                  <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-white/15 text-white ring-1 ring-white/25">
                     <Mic className="size-5" strokeWidth={1.75} />
                   </span>
                   <div>
-                    <p className="font-display text-base font-semibold text-neutral-900">
+                    <p className="font-display text-base font-semibold text-white">
                       ¿Preferís crear tu propio contenido?
                     </p>
-                    <p className="mt-0.5 text-sm text-neutral-500">
+                    <p className="mt-0.5 text-sm text-white/75">
                       El estudio de DOGO se alquila con todo el equipamiento listo.
                     </p>
                   </div>
                 </div>
-                <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-grape">
+                <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-white">
                   Conocé el estudio
                   <ArrowUpRight
                     className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"

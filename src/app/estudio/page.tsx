@@ -5,13 +5,11 @@ import {
   ArrowUpRight,
   CalendarCheck,
   ChevronRight,
-  Clapperboard,
   Headphones,
   Lightbulb,
   Megaphone,
   Mic,
   MonitorPlay,
-  Podcast,
   RadioTower,
   Snowflake,
   Video,
@@ -22,6 +20,7 @@ import { SITE_URL } from "@/lib/site";
 import { Container } from "@/components/site/primitives";
 import { Reveal, RevealHeader, RevealItem } from "@/components/site/reveal";
 import { StudioGallery } from "@/components/site/studio-gallery";
+import { StudioBillboard } from "@/components/site/studio-billboard";
 import { Navbar } from "@/components/site/navbar";
 import { Footer } from "@/components/site/footer";
 
@@ -74,25 +73,6 @@ const rider = [
   { icon: Snowflake, title: "Espacio climatizado", desc: "Silencioso y cómodo." },
 ];
 
-/* Para qué lo alquilan. */
-const usos = [
-  {
-    icon: Podcast,
-    title: "Tu podcast",
-    desc: "Sentate y grabá: los micrófonos, el retorno y la mesa ya están armados para conversar.",
-  },
-  {
-    icon: RadioTower,
-    title: "Tu programa en vivo",
-    desc: "Salí al aire por YouTube o Twitch desde un estudio pensado para transmitir sin cortes.",
-  },
-  {
-    icon: Clapperboard,
-    title: "El contenido de tu marca",
-    desc: "Entrevistas, lanzamientos o clips para redes, con la estética de un estudio de verdad.",
-  },
-];
-
 /* El proceso es una secuencia real: por eso va numerado. */
 const pasos = [
   {
@@ -137,25 +117,7 @@ export default function EstudioPage() {
           <Reveal className="mt-6">
             <div className="grid overflow-hidden rounded-[2rem] border border-neutral-200 bg-white md:grid-cols-2">
               <div className="relative aspect-[16/11] overflow-hidden md:aspect-auto md:min-h-[30rem]">
-                <Image
-                  src="/studio/studio-1.png"
-                  alt="Dos conductores al aire en la mesa del estudio de DOGO"
-                  fill
-                  priority
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover"
-                />
-                {/* Tally de cámara: el punto rojo de "estamos grabando". */}
-                <span className="absolute left-6 top-6 z-10 inline-flex -rotate-2 items-center gap-2 rounded-full bg-white/95 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-neutral-900 shadow-sm backdrop-blur">
-                  <span className="relative flex size-2">
-                    <span className="absolute inline-flex size-full rounded-full bg-red-500/70 motion-safe:animate-ping" />
-                    <span className="relative inline-flex size-2 rounded-full bg-red-500" />
-                  </span>
-                  Se alquila
-                </span>
-                <span className="absolute bottom-6 right-6 z-10 rotate-2 rounded-full bg-gold px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-ink shadow-sm">
-                  San Nicolás · FM 99.9
-                </span>
+                <StudioBillboard />
               </div>
 
               <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-14">
@@ -246,77 +208,45 @@ export default function EstudioPage() {
 
           {/* ── Rider técnico: lo que está conectado cuando llegás ────────── */}
           <section className="mt-20">
-            <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
-              <RevealHeader>
-                <RevealItem>
-                  <span className="flex items-center gap-2 font-display text-[11px] font-semibold uppercase tracking-[0.18em] text-grape">
-                    <span className="size-1.5 rounded-[1px] bg-gold" />
-                    Rider técnico
-                  </span>
-                </RevealItem>
-                <RevealItem>
-                  <h2 className="mt-4 font-display text-3xl font-bold leading-[1.05] tracking-tight text-neutral-900 sm:text-4xl">
-                    Llegás, te sentás y ya está sonando
-                  </h2>
-                </RevealItem>
-                <RevealItem>
-                  <p className="mt-4 max-w-md text-sm leading-relaxed text-neutral-500 sm:text-base">
-                    Nada de armar ni configurar: el equipamiento del estudio
-                    queda montado y probado antes de cada reserva.
-                  </p>
-                </RevealItem>
-              </RevealHeader>
-
-              <Reveal delay={0.1}>
-                <ul className="divide-y divide-neutral-200 rounded-[1.5rem] border border-neutral-200 bg-white px-6 sm:px-8">
-                  {rider.map(({ icon: Icon, title, desc }) => (
-                    <li key={title} className="group/row flex items-center gap-4 py-4 sm:gap-5">
-                      <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-grape/[0.07] text-grape transition-colors duration-300 group-hover/row:bg-grape group-hover/row:text-white">
-                        <Icon className="size-5" strokeWidth={1.75} />
-                      </span>
-                      <div className="min-w-0">
-                        <h3 className="font-display text-base font-semibold leading-tight text-neutral-900">
-                          {title}
-                        </h3>
-                        <p className="mt-0.5 text-sm leading-snug text-neutral-500">{desc}</p>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </Reveal>
-            </div>
-          </section>
-
-          {/* ── Para qué lo usan ──────────────────────────────────────────── */}
-          <section className="mt-20">
             <RevealHeader>
               <RevealItem>
                 <span className="flex items-center gap-2 font-display text-[11px] font-semibold uppercase tracking-[0.18em] text-grape">
                   <span className="size-1.5 rounded-[1px] bg-gold" />
-                  Para qué lo usan
+                  Rider técnico
                 </span>
               </RevealItem>
               <RevealItem>
                 <h2 className="mt-4 max-w-2xl font-display text-3xl font-bold leading-[1.05] tracking-tight text-neutral-900 sm:text-4xl">
-                  Un estudio, todos tus formatos
+                  Llegás, te sentás y ya está sonando
                 </h2>
+              </RevealItem>
+              <RevealItem>
+                <p className="mt-4 max-w-md text-sm leading-relaxed text-neutral-500 sm:text-base">
+                  Nada de armar ni configurar: el equipamiento del estudio
+                  queda montado y probado antes de cada reserva.
+                </p>
               </RevealItem>
             </RevealHeader>
 
-            <Reveal className="mt-10">
-              <div className="grid divide-neutral-200 rounded-[2rem] border border-neutral-200 bg-white max-md:divide-y md:grid-cols-3 md:divide-x">
-                {usos.map(({ icon: Icon, title, desc }) => (
-                  <div key={title} className="group p-7 sm:p-9">
-                    <span className="flex size-11 items-center justify-center rounded-xl bg-grape/[0.07] text-grape transition-colors duration-300 group-hover:bg-grape group-hover:text-white">
+            <Reveal className="mt-10" delay={0.1}>
+              <ul className="grid grid-cols-1 gap-x-10 rounded-[1.5rem] border border-neutral-200 bg-white px-6 sm:grid-cols-2 sm:px-8">
+                {rider.map(({ icon: Icon, title, desc }) => (
+                  <li
+                    key={title}
+                    className="group/row flex items-center gap-4 border-neutral-200 py-4 [&:not(:first-child)]:border-t sm:gap-5 sm:[&:nth-child(-n+2)]:border-t-0 sm:[&:nth-child(even)]:border-l sm:[&:nth-child(even)]:pl-6 sm:[&:nth-child(odd)]:pr-6"
+                  >
+                    <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-grape/[0.07] text-grape transition-colors duration-300 group-hover/row:bg-grape group-hover/row:text-white">
                       <Icon className="size-5" strokeWidth={1.75} />
                     </span>
-                    <h3 className="mt-5 font-display text-lg font-semibold text-neutral-900">
-                      {title}
-                    </h3>
-                    <p className="mt-1.5 text-sm leading-relaxed text-neutral-500">{desc}</p>
-                  </div>
+                    <div className="min-w-0">
+                      <h3 className="font-display text-base font-semibold leading-tight text-neutral-900">
+                        {title}
+                      </h3>
+                      <p className="mt-0.5 text-sm leading-snug text-neutral-500">{desc}</p>
+                    </div>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </Reveal>
           </section>
 
@@ -405,22 +335,22 @@ export default function EstudioPage() {
             <Reveal className="mt-5" delay={0.1}>
               <Link
                 href="/anuncia"
-                className="group flex flex-col gap-4 rounded-[1.5rem] border border-neutral-200 bg-white p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-neutral-300 hover:shadow-xl hover:shadow-neutral-200/70 sm:flex-row sm:items-center sm:justify-between sm:p-7"
+                className="group flex flex-col gap-4 rounded-[1.5rem] bg-gradient-to-br from-gold to-gold-deep p-6 shadow-[0_6px_0_0_#a3690f] transition-all duration-150 hover:translate-y-[2px] hover:shadow-[0_4px_0_0_#a3690f] active:translate-y-[6px] active:shadow-none sm:flex-row sm:items-center sm:justify-between sm:p-7"
               >
                 <div className="flex items-center gap-4">
-                  <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-gold/15 text-gold-deep">
+                  <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-white/15 text-white ring-1 ring-white/25">
                     <Megaphone className="size-5" strokeWidth={1.75} />
                   </span>
                   <div>
-                    <p className="font-display text-base font-semibold text-neutral-900">
+                    <p className="font-display text-base font-semibold text-white">
                       ¿Buscás que tu marca suene en DOGO?
                     </p>
-                    <p className="mt-0.5 text-sm text-neutral-500">
+                    <p className="mt-0.5 text-sm text-white/75">
                       Menciones en vivo, spots y contenido en redes: conocé la pauta.
                     </p>
                   </div>
                 </div>
-                <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-gold-deep">
+                <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-white">
                   Anunciá con DOGO
                   <ArrowUpRight
                     className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"

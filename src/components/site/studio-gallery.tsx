@@ -46,12 +46,14 @@ export function StudioGallery({ bookUrl }: { bookUrl: string }) {
   const target = useRef(0);
   const raf = useRef(0);
   const settleTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const snapTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const drag = useRef<{ startX: number; startScroll: number; moved: boolean } | null>(null);
 
   useEffect(
     () => () => {
       cancelAnimationFrame(raf.current);
       clearTimeout(settleTimer.current);
+      clearTimeout(snapTimer.current);
     },
     [],
   );
@@ -63,6 +65,13 @@ export function StudioGallery({ bookUrl }: { bookUrl: string }) {
    * (flecha, arrastre, swipe o momentum del scroll nativo).
    */
   const closestIndex = (el: HTMLDivElement) => {
+    // En los extremos, el scroll no siempre alcanza a centrar el primer o
+    // último slide (más corto que el viewport le deja "juego" al navegador)
+    // — ahí el índice se fuerza por posición de scroll, no por distancia.
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    if (el.scrollLeft <= 1) return 0;
+    if (el.scrollLeft >= maxScroll - 1) return el.children.length - 1;
+
     const mid = el.getBoundingClientRect().left + el.clientWidth / 2;
     let best = 0;
     let bestDist = Infinity;
@@ -86,10 +95,17 @@ export function StudioGallery({ bookUrl }: { bookUrl: string }) {
     const el = scroller.current;
     const slide = el?.children[i] as HTMLElement | undefined;
     if (!el || !slide) return;
-    const left = slide.offsetLeft - (el.clientWidth - slide.clientWidth) / 2;
+    // Mismo método de medición que `closestIndex` (getBoundingClientRect, no
+    // offsetLeft): si las dos funciones miden distinto, el snap nativo
+    // "corrige" hacia su propia idea de centrado apenas se reactiva, y el
+    // carrusel termina desalineándose de a poco entre clicks.
+    const containerRect = el.getBoundingClientRect();
+    const slideRect = slide.getBoundingClientRect();
+    const delta =
+      slideRect.left + slideRect.width / 2 - (containerRect.left + containerRect.width / 2);
     cancelAnimationFrame(raf.current);
     const max = el.scrollWidth - el.clientWidth;
-    const to = Math.max(0, Math.min(max, left));
+    const to = Math.max(0, Math.min(max, el.scrollLeft + delta));
     if (reduce) {
       el.scrollLeft = to;
       setIndex(i);
@@ -107,7 +123,15 @@ export function StudioGallery({ bookUrl }: { bookUrl: string }) {
       if (p < 1) {
         raf.current = requestAnimationFrame(step);
       } else {
-        el.style.scrollSnapType = "";
+        // No reactivamos el snap nativo en el mismo instante: con slides
+        // angostos, el punto de snap del anteúltimo y el del último
+        // (recortado por el límite de scroll) quedan tan cerca que el
+        // navegador a veces "corrige" hacia el vecino equivocado apenas
+        // reactivás el snap. Un pequeño delay evita esa pelea.
+        clearTimeout(snapTimer.current);
+        snapTimer.current = setTimeout(() => {
+          el.style.scrollSnapType = "";
+        }, 250);
       }
     };
     raf.current = requestAnimationFrame(step);
@@ -144,6 +168,7 @@ export function StudioGallery({ bookUrl }: { bookUrl: string }) {
     const el = scroller.current;
     if (!el) return;
     cancelAnimationFrame(raf.current);
+    clearTimeout(snapTimer.current);
     el.style.scrollSnapType = "none";
     drag.current = { startX: e.clientX, startScroll: el.scrollLeft, moved: false };
     el.setPointerCapture(e.pointerId);
@@ -187,7 +212,7 @@ export function StudioGallery({ bookUrl }: { bookUrl: string }) {
     <div>
       {/* Controles: flechas + contador, en la esquina editorial */}
       <div className="mb-5 flex items-center justify-between">
-        <p className="font-mono text-sm text-neutral-400">
+        <p className="font-mono text-base text-neutral-400">
           {String(index + 1).padStart(2, "0")} / {String(TOTAL).padStart(2, "0")}
         </p>
         <div className="flex items-center gap-2">
@@ -231,21 +256,21 @@ export function StudioGallery({ bookUrl }: { bookUrl: string }) {
         {fotos.map((foto) => (
           <div
             key={foto.src}
-            className="relative aspect-[3/2] w-[86%] shrink-0 snap-center overflow-hidden rounded-[1.75rem] bg-neutral-200 sm:w-[70%] lg:w-[58%]"
+            className="relative aspect-[3/2] w-[70%] shrink-0 snap-center overflow-hidden rounded-[1.75rem] bg-neutral-200 sm:w-[48%] lg:w-[36%]"
           >
             <Image
               src={foto.src}
               alt={foto.alt}
               fill
               draggable={false}
-              sizes="(max-width: 640px) 86vw, (max-width: 1024px) 70vw, 58vw"
+              sizes="(max-width: 640px) 70vw, (max-width: 1024px) 48vw, 36vw"
               className="pointer-events-none object-cover"
             />
           </div>
         ))}
 
         {/* El cierre de la vidriera: el cartel, como última foto */}
-        <div className="relative aspect-[3/2] w-[86%] shrink-0 snap-center overflow-hidden rounded-[1.75rem] sm:w-[70%] lg:w-[58%]">
+        <div className="relative aspect-[3/2] w-[70%] shrink-0 snap-center overflow-hidden rounded-[1.75rem] sm:w-[48%] lg:w-[36%]">
           <a
             href={bookUrl}
             target="_blank"
