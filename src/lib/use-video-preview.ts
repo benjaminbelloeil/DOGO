@@ -6,11 +6,15 @@ import { useReducedMotion } from "motion/react";
 /** Debe calzar con la duración `transition-opacity` que usan los iframes. */
 export const VIDEO_PREVIEW_FADE_MS = 500;
 // El iframe dispara onLoad cuando carga el documento embebido, mucho antes
-// de que YouTube empiece a pintar frames reales (de por medio hay negro o
-// buffer). Medido a ojo: recién arranca a pintar contenido real bastante
-// después de eso. Este colchón le da tiempo de sobra antes de empezar el
-// crossfade, así el fundido revela video de verdad y no un instante negro.
-export const REVEAL_BUFFER_MS = 1200;
+// de que YouTube empiece a pintar frames reales (de por medio hay negro,
+// buffer, o el propio frame pausado del reproductor con su ícono de play
+// nativo mientras busca el segundo de arranque). Medido con el `start`
+// que usa este hook (~10 min adentro del video): recién pinta contenido
+// real reproduciéndose entre 4 y 6 segundos después del load. Un colchón
+// corto revela el iframe mientras todavía muestra ese cuadro pausado —
+// exactamente el bug reportado ("el video pausado de YouTube" en vez del
+// preview). Este valor le da margen de sobra antes de empezar el fundido.
+export const REVEAL_BUFFER_MS = 4000;
 
 /**
  * Maneja el timing de un preview de YouTube en hover: entra suave (con
